@@ -30,7 +30,7 @@ int main() {
             printf("RunInLoop(): pid = %d, tid = %d\n",
                    getpid(), windz::currentthread::tid());
         });
-        loop.RunAfter(3, [&loop]{
+        loop.RunAfter(Duration(3.0), [&loop]{
             printf("loop Quit\n");
             loop.Quit();
         });

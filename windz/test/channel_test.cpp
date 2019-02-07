@@ -24,8 +24,10 @@ int main()
                 ch->DisableRead();
             });
             ch->EnableRead();
-
-            loop.RunAfter(2, [ch] {
+            
+            Duration delay(2 * Duration::kSecond);
+            
+            loop.RunAfter(delay, [ch] {
                 printf("%ld\n", ch.use_count());
                 ch->DisableReadWrite();
                 ch->loop()->Quit();

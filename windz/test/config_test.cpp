@@ -17,6 +17,7 @@ using namespace std;
 void NormalTest() {
     Config config;
     int ret = config.Parse("./conf/normal.conf");
+    static_cast<void>(ret);
     assert(ret == 0);
     auto conf = config.config();
     for (auto &i: conf) {
@@ -58,6 +59,7 @@ void NormalTest() {
 void ErrorTest() {
     Config config;
     int ret = config.Parse("./conf/section_error.conf");
+    static_cast<void>(ret);
     assert(ret == 4);
     auto conf = config.config();
     for (auto &i: conf) {

@@ -45,12 +45,12 @@ void Acceptor::Listen() {
 void Acceptor::HandleRead() {
     loop_->AssertInLoopThread();
     InetAddr peer_addr;
-    Socket conn = socket_.Accept(&peer_addr);
-    if (conn.Valid()) {
+    Socket socket = socket_.Accept(&peer_addr);
+    if (socket.Valid()) {
         if (conncb_) {
-            conncb_(conn, peer_addr);
+            conncb_(socket, peer_addr);
         } else {
-            conn.Close();
+            socket.Close();
         }
     } else {
         // See the section named "The special problem of accept()ing

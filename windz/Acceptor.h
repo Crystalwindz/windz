@@ -16,7 +16,7 @@ class EventLoop;
 
 class Acceptor : private noncopyable {
   public:
-    using ConnCallBack = std::function<void(const Socket &, const InetAddr &)>;
+    using ConnectionCallBack = std::function<void(const Socket &, const InetAddr &)>;
 
     Acceptor(EventLoop *loop, const InetAddr &addr, bool reuseport = false);
     ~Acceptor();
@@ -24,7 +24,7 @@ class Acceptor : private noncopyable {
     void Listen();
 
     bool listenning() { return listenning_; }
-    void SetConnCallBack(const ConnCallBack &cb) { conncb_ = cb; }
+    void SetConnecionCallBack(const ConnectionCallBack &cb) { conncb_ = cb; }
 
   private:
     void HandleRead();
@@ -32,7 +32,7 @@ class Acceptor : private noncopyable {
     ObserverPtr<EventLoop> loop_;
     Socket socket_;
     ChannelSPtr channel_;
-    ConnCallBack conncb_;
+    ConnectionCallBack conncb_;
     bool listenning_;
     int idle_fd_;
 };

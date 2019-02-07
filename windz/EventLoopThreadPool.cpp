@@ -34,14 +34,14 @@ void EventLoopThreadPool::Start(size_t thread_num) {
     }
 }
 
-EventLoop *EventLoopThreadPool::Next() {
+ObserverPtr<EventLoop> EventLoopThreadPool::Next() {
     assert(tid_ == currentthread::tid());
     assert(started_);
 
-    EventLoop *loop = nullptr;
+    ObserverPtr<EventLoop> loop(nullptr);
 
     if (!loops_.empty()) {
-        loop = loops_[next_].Get();
+        loop = loops_[next_];
         ++next_;
         if (next_ >= loops_.size()) {
             next_ = 0;

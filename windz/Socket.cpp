@@ -78,7 +78,7 @@ Socket Socket::Accept(InetAddr *peer_addr) const {
 }
 
 bool Socket::Connect(const InetAddr &server_addr) const {
-    int r = ::connect(sockfd_, server_addr.SockAddr(), sizeof(sockaddr_in));
+    int r = ::connect(sockfd_, server_addr.SockAddr(), sizeof(struct sockaddr_in));
     return r == 0;
 }
 
@@ -91,6 +91,33 @@ bool Socket::Shutdown(int how) const {
 bool Socket::Close() const {
     int r = ::close(sockfd_);
     return r == 0;
+}
+
+InetAddr Socket::LocalAddr() const {
+    struct sockaddr_in addr;
+    memset(&addr, 0, sizeof(addr));
+    socklen_t len = sizeof(addr);
+    ::getsockname(sockfd_, (struct sockaddr *)&addr, &len);
+    return InetAddr(addr);
+}
+
+InetAddr Socket::PeerAddr() const {
+    struct sockaddr_in addr;
+    memset(&addr, 0, sizeof(addr));
+    socklen_t len = sizeof(addr);
+    ::getpeername(sockfd_, (struct sockaddr *)&addr, &len);
+    return InetAddr(addr);
+}
+
+int Socket::SocketError() const {
+    int optval;
+    socklen_t optlen = static_cast<socklen_t>(sizeof(optval));
+
+    if (::getsockopt(sockfd_, SOL_SOCKET, SO_ERROR, &optval, &optlen) < 0) {
+        return errno;
+    } else {
+        return optval;
+    }
 }
 
 bool Socket::SetTcpNoDelay(bool flag) const {

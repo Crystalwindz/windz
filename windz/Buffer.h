@@ -5,6 +5,7 @@
 #ifndef WINDZ_BUFFER_H
 #define WINDZ_BUFFER_H
 
+#include "Socket.h"
 #include <assert.h>
 #include <string.h>
 #include <vector>
@@ -54,6 +55,7 @@ class Buffer {
 
     void Shrink(size_t reserve);
     ssize_t ReadFd(int fd);
+    ssize_t ReadSocket(const Socket &socket);
 
   private:
     void AlignPrepend();

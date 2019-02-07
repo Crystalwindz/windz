@@ -14,6 +14,7 @@ set(SRCS
     EventLoopThread.cpp
     EventLoopThreadPool.cpp
     Acceptor.cpp
+        Connector.cpp
     TcpServer.cpp TcpConnection.cpp TcpConnection.h)
 
 set(HEADER

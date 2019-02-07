@@ -24,12 +24,12 @@ class Channel : private noncopyable, public std::enable_shared_from_this<Channel
     void HandleEvents();
     void Close();
 
+    void Tie(const std::shared_ptr<void> &p);
+
     void SetReadHandler(const EventCallBack &readcb) { readcb_ = readcb; }
     void SetReadHandler(EventCallBack &&readcb) { readcb_ = std::move(readcb); }
     void SetWriteHandler(const EventCallBack &writecb) { writecb_ = writecb; }
     void SetWriteHandler(EventCallBack &&writecb) { writecb_ = std::move(writecb); }
-    void SetCloseHandler(const EventCallBack &closecb) { closecb_ = closecb; }
-    void SetCloseHandler(EventCallBack &&closecb) { closecb_ = std::move(closecb); }
     void SetErrorHandler(const EventCallBack &errorcb) { errorcb_ = errorcb; }
     void SetErrorHandler(EventCallBack &&errorcb) { errorcb_ = std::move(errorcb); }
 
@@ -56,7 +56,10 @@ class Channel : private noncopyable, public std::enable_shared_from_this<Channel
     uint32_t revents_;
 
     bool event_handling_;
-    EventCallBack readcb_, writecb_, closecb_, errorcb_;
+    EventCallBack readcb_, writecb_, errorcb_;
+
+    bool tied_;
+    std::weak_ptr<void> tie_;
 };
 
 using ChannelSPtr = std::shared_ptr<Channel>;

@@ -99,6 +99,10 @@ ssize_t Buffer::ReadFd(int fd) {
     return n;
 }
 
+ssize_t Buffer::ReadSocket(const windz::Socket &socket) {
+    return ReadFd(socket.sockfd());
+}
+
 void Buffer::AlignPrepend() {
     size_t read_byte = ReadableBytes();
     if (read_index_ == kPrependSize){

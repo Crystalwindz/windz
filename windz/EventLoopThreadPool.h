@@ -23,7 +23,7 @@ class EventLoopThreadPool : private noncopyable {
 
     void Start(size_t thread_num);
 
-    EventLoop *Next();
+    ObserverPtr<EventLoop> Next();
 
   private:
     bool started_;

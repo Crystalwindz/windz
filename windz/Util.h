@@ -51,6 +51,12 @@ class ObserverPtr {
     T *ptr_;
 };
 
+template<typename T, typename... Ts>
+std::unique_ptr<T> MakeUnique(Ts&&... params)
+{
+    return std::unique_ptr<T>(new T(std::forward<Ts>(params)...));
+}
+
 namespace util {
 
 std::string Format(const char *fmt, ...);

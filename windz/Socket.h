@@ -41,6 +41,10 @@ class Socket {
     bool Shutdown(int how) const;
     bool Close() const;
 
+    InetAddr LocalAddr() const;
+    InetAddr PeerAddr() const;
+    int SocketError() const;
+
     bool SetTcpNoDelay(bool flag) const;
     bool SetReuseAddr(bool flag) const;
     bool SetReusePort(bool flag) const;
