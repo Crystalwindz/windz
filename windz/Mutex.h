@@ -5,13 +5,13 @@
 #ifndef WINDZ_MUTEX_H
 #define WINDZ_MUTEX_H
 
-#include "Util.h"
+#include "Noncopyable.h"
 #include <pthread.h>
 #include <time.h>
 
 namespace windz {
 
-class Mutex : private noncopyable {
+class Mutex : private Noncopyable {
     friend class Condition;
 
   public:
@@ -47,7 +47,7 @@ class Mutex : private noncopyable {
     }
 };
 
-class LockGuard : private noncopyable {
+class LockGuard : private Noncopyable {
   public:
     explicit LockGuard(Mutex &mutex) : mutex_(mutex) {
         mutex_.Lock();

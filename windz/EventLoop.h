@@ -5,6 +5,7 @@
 #ifndef WINDZ_EVENTLOOP_H
 #define WINDZ_EVENTLOOP_H
 
+#include "Noncopyable.h"
 #include "Util.h"
 #include "Thread.h"
 #include "Mutex.h"
@@ -22,7 +23,7 @@ namespace windz {
 class Epoller;
 class Channel;
 
-class EventLoop : private noncopyable {
+class EventLoop : private Noncopyable {
   public:
     using Functor = std::function<void()>;
     using ChannelSPtr = std::shared_ptr<Channel>;

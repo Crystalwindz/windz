@@ -94,7 +94,7 @@ ssize_t net::Writen(int fd, const void *buf, size_t n) {
     return writesum;
 }
 
-ssize_t net::Writen(int fd, std::string &buf) {
+ssize_t net::WriteFd(int fd, std::string &buf) {
     return Writen(fd, buf.c_str(), buf.size());
 }
 
@@ -125,7 +125,7 @@ ssize_t net::Readn(int fd, void *buf, size_t n) {
     return readsum;
 }
 
-ssize_t net::Readn(int fd, std::string &buf) {
+ssize_t net::ReadFd(int fd, std::string &buf) {
     ssize_t nread = 0;
     ssize_t readsum = 0;
     while(true) {

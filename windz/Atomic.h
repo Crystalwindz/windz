@@ -5,18 +5,18 @@
 #ifndef WINDZ_ATOMIC_H
 #define WINDZ_ATOMIC_H
 
-#include "Util.h"
+#include "Noncopyable.h"
 #include <stdint.h>
 
 namespace windz {
 
 template <typename T>
-class Atomic : private noncopyable {
+class Atomic : private Noncopyable {
   public:
     Atomic() : value_(0) {}
     explicit Atomic(T value) : value_(value) {}
 
-    T Get() {
+    T Get() const {
         return __atomic_load_n(&value_, __ATOMIC_SEQ_CST);
     }
     T Set(T newvalue) {
@@ -47,6 +47,25 @@ class Atomic : private noncopyable {
 
 using AtomicInt32 = Atomic<int32_t>;
 using AtomicInt64 = Atomic<int64_t>;
+
+class AtomicBool : private Noncopyable {
+  public:
+    explicit AtomicBool(bool value) {
+        if (value) {
+            value_.Set(1);
+        } else {
+            value_.Set(0);
+        }
+    }
+
+    void SetTrue() { value_.Set(1); }
+    void SetFalse() { value_.Set(0); }
+    bool Get() const { return value_.Get() == 1; }
+    explicit operator bool() const { return Get(); }
+
+  private:
+    AtomicInt32 value_;
+};
 
 }  // namespace windz
 

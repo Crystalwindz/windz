@@ -5,17 +5,17 @@
 #ifndef WINDZ_THREADPOOL_H
 #define WINDZ_THREADPOOL_H
 
-#include "windz/Util.h"
-#include "windz/Mutex.h"
-#include "windz/Thread.h"
-#include "windz/BlockingQueue.h"
+#include "Noncopyable.h"
+#include "Mutex.h"
+#include "Thread.h"
+#include "BlockingQueue.h"
 #include <functional>
 #include <memory>
 #include <vector>
 
 namespace windz {
 
-class ThreadPool : private noncopyable {
+class ThreadPool : private Noncopyable {
   public:
     using Task = std::function<void()>;
 

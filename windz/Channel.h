@@ -5,6 +5,7 @@
 #ifndef WINDZ_CHANNEL_H
 #define WINDZ_CHANNEL_H
 
+#include "Noncopyable.h"
 #include "Util.h"
 #include <sys/epoll.h>
 #include <functional>
@@ -14,7 +15,7 @@ namespace windz {
 
 class EventLoop;
 
-class Channel : private noncopyable, public std::enable_shared_from_this<Channel> {
+class Channel : private Noncopyable, public std::enable_shared_from_this<Channel> {
   public:
     using EventCallBack = std::function<void()>;
 

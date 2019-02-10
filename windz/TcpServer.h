@@ -5,7 +5,7 @@
 #ifndef WINDZ_TCPSERVER_H
 #define WINDZ_TCPSERVER_H
 
-#include "Util.h"
+#include "Noncopyable.h"
 #include "Atomic.h"
 #include "TcpConnection.h"
 #include "Socket.h"
@@ -20,7 +20,7 @@ class Acceptor;
 class EventLoop;
 class EventLoopThreadPool;
 
-class TcpServer : private noncopyable {
+class TcpServer : private Noncopyable {
   public:
     TcpServer(EventLoop *loop, const InetAddr &addr,
     const std::string &name, bool reuseport = false);

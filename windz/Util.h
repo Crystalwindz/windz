@@ -5,22 +5,14 @@
 #ifndef WINDZ_UTIL_H
 #define WINDZ_UTIL_H
 
+#include "Noncopyable.h"
 #include <string>
 #include <functional>
 #include <memory>
 
 namespace windz {
 
-class noncopyable {
-  protected:
-    noncopyable() = default;
-    ~noncopyable() = default;
-
-    noncopyable(const noncopyable &) = delete;
-    noncopyable &operator=(const noncopyable &) = delete;
-};
-
-class ExitCaller : private noncopyable {
+class ExitCaller : private Noncopyable {
   public:
     explicit ExitCaller(std::function<void()> &&functor) : functor_(std::move(functor)) {}
     ~ExitCaller() { functor_(); }
@@ -68,9 +60,9 @@ int SetNonBlockAndCloseOnExec(int fd);
 namespace net {
 
 ssize_t Readn(int fd, void *buf, size_t n);
-ssize_t Readn(int fd, std::string &buf);
+ssize_t ReadFd(int fd, std::string &buf);
 ssize_t Writen(int fd, const void *buf, size_t n);
-ssize_t Writen(int fd, std::string &buf);
+ssize_t WriteFd(int fd, std::string &buf);
 
 }  // namespace net
 

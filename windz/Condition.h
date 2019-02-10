@@ -5,7 +5,7 @@
 #ifndef WINDZ_CONDITION_H
 #define WINDZ_CONDITION_H
 
-#include "Util.h"
+#include "Noncopyable.h"
 #include "Mutex.h"
 #include <pthread.h>
 #include <time.h>
@@ -13,7 +13,7 @@
 
 namespace windz {
 
-class Condition : private noncopyable {
+class Condition : private Noncopyable {
   public:
     explicit Condition(Mutex &mutex) : mutex_(mutex) {
         pthread_cond_init(&cond_, nullptr);

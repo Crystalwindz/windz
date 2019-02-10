@@ -15,7 +15,7 @@ const Duration Connector::kMaxRetryDuration(30.0);
 const Duration Connector::kInitRetryDuration(0.1);
 
 Connector::Connector(EventLoop *loop, const InetAddr &addr)
-: loop_(loop), addr_(addr), start_(0),
+: loop_(loop), addr_(addr), start_(false),
   state_(kDisconnected), retry_duration_(kInitRetryDuration) {
     /*empty*/
 }
@@ -25,19 +25,19 @@ Connector::~Connector() {
 }
 
 void Connector::Start() {
-    start_.Set(1);
+    start_.SetTrue();
     auto self = shared_from_this();
     loop_->RunInLoop([this, self] {
         loop_->AssertInLoopThread();
         assert(state_ == kDisconnected);
-        if (start_.Get()) {
+        if (start_) {
             Connect();
         }
     });
 }
 
 void Connector::Stop() {
-    start_.Set(0);
+    start_.SetFalse();
     auto self = shared_from_this();
     loop_->RunInLoop([this, self] {
         loop_->AssertInLoopThread();
@@ -47,6 +47,16 @@ void Connector::Stop() {
             socket.Close();
         }
     });
+}
+
+void Connector::Restart() {
+    loop_->AssertInLoopThread();
+    state_ = kDisconnected;
+    retry_duration_ = kInitRetryDuration;
+    start_.SetTrue();
+    if (start_) {
+        Connect();
+    }
 }
 
 void Connector::Connect() {
@@ -97,12 +107,12 @@ void Connector::Connecting(const Socket &sockfd) {
 void Connector::Retry(const Socket &sockfd) {
     sockfd.Close();
     state_ = kDisconnected;
-    if (start_.Get()) {
+    if (start_) {
         auto self(shared_from_this());
         loop_->RunAfter(retry_duration_, [this, self]{
             loop_->AssertInLoopThread();
             assert(state_ == kDisconnected);
-            if (start_.Get()) {
+            if (start_) {
                 Connect();
             }
         });
@@ -125,7 +135,7 @@ void Connector::HandleWrite() {
         Retry(socket);
     } else {
         state_ = kConnected;
-        if (start_.Get()) {
+        if (start_) {
             conncb_(socket);
         } else {
             socket.Close();

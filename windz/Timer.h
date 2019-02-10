@@ -6,6 +6,7 @@
 #define WINDZ_TIMERQUEUE_H
 
 #include "Atomic.h"
+#include "Noncopyable.h"
 #include "Util.h"
 #include "Timestamp.h"
 #include <assert.h>
@@ -32,7 +33,7 @@ class TimerId {
     std::weak_ptr<Timer> timer_;
 };
 
-class Timer : private noncopyable {
+class Timer : private Noncopyable {
   public:
     using CallBack = std::function<void()>;
 
@@ -73,7 +74,7 @@ class Timer : private noncopyable {
     bool canceled_;
 };
 
-class TimerManager : private noncopyable {
+class TimerManager : private Noncopyable {
   public:
     using CallBack = std::function<void()>;
     using TimerEntry = std::shared_ptr<Timer>;

@@ -5,6 +5,7 @@
 #ifndef WINDZ_EPOLLER_H
 #define WINDZ_EPOLLER_H
 
+#include "Noncopyable.h"
 #include "Util.h"
 #include <sys/epoll.h>
 #include <memory>
@@ -16,7 +17,7 @@ namespace windz {
 class Channel;
 class EventLoop;
 
-class Epoller : private noncopyable {
+class Epoller : private Noncopyable {
   public:
     using ChannelOPtr = windz::ObserverPtr<Channel>;
     using ChannelVector = std::vector<ChannelOPtr>;

@@ -5,13 +5,13 @@
 #ifndef WINDZ_COUNTDOWNLATCH_H
 #define WINDZ_COUNTDOWNLATCH_H
 
-#include "Util.h"
+#include "Noncopyable.h"
 #include "Mutex.h"
 #include "Condition.h"
 
 namespace windz {
 
-class CountDownLatch : private noncopyable {
+class CountDownLatch : private Noncopyable {
   public:
     explicit CountDownLatch(int count) : mutex_(), cond_(mutex_), count_(count) {}
     void Wait() {

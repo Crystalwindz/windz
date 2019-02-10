@@ -5,6 +5,7 @@
 #ifndef WINDZ_EVENTLOOPTHREADPOOL_H
 #define WINDZ_EVENTLOOPTHREADPOOL_H
 
+#include "Noncopyable.h"
 #include "Util.h"
 #include <functional>
 #include <string>
@@ -16,7 +17,7 @@ namespace windz {
 class EventLoop;
 class EventLoopThread;
 
-class EventLoopThreadPool : private noncopyable {
+class EventLoopThreadPool : private Noncopyable {
   public:
     explicit EventLoopThreadPool();
     ~EventLoopThreadPool();

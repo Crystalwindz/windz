@@ -5,7 +5,7 @@
 #ifndef WINDZ_EVENTLOOPTHREAD_H
 #define WINDZ_EVENTLOOPTHREAD_H
 
-#include "Util.h"
+#include "Noncopyable.h"
 #include "Mutex.h"
 #include "Condition.h"
 #include "Thread.h"
@@ -16,7 +16,7 @@ namespace windz{
 
 class EventLoop;
 
-class EventLoopThread : private noncopyable {
+class EventLoopThread : private Noncopyable {
   public:
     explicit EventLoopThread(const std::string &name = std::string());
     ~EventLoopThread();

@@ -5,7 +5,7 @@
 #ifndef WINDZ_SOCKET_H
 #define WINDZ_SOCKET_H
 
-#include "Util.h"
+#include "Noncopyable.h"
 #include <netinet/in.h>
 #include <unistd.h>
 #include <string>

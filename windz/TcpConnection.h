@@ -5,6 +5,7 @@
 #ifndef WINDZ_TCPCONNECTION_H
 #define WINDZ_TCPCONNECTION_H
 
+#include "Noncopyable.h"
 #include "Util.h"
 #include "Socket.h"
 #include "Buffer.h"
@@ -19,7 +20,7 @@ namespace windz {
 class Channel;
 class EventLoop;
 
-class TcpConnection : private noncopyable,
+class TcpConnection : private Noncopyable,
                       public std::enable_shared_from_this<TcpConnection> {
   public:
     TcpConnection(ObserverPtr<EventLoop> loop, const std::string &name,

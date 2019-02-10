@@ -5,6 +5,7 @@
 #ifndef WINDZ_ACCEPTOR_H
 #define WINDZ_ACCEPTOR_H
 
+#include "Noncopyable.h"
 #include "Util.h"
 #include "Channel.h"
 #include "Socket.h"
@@ -14,7 +15,7 @@ namespace windz {
 
 class EventLoop;
 
-class Acceptor : private noncopyable {
+class Acceptor : private Noncopyable {
   public:
     using ConnectionCallBack = std::function<void(const Socket &, const InetAddr &)>;
 

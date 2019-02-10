@@ -5,7 +5,7 @@
 #ifndef WINDZ_BLOCKINGQUEUE_H
 #define WINDZ_BLOCKINGQUEUE_H
 
-#include "Util.h"
+#include "Noncopyable.h"
 #include "Mutex.h"
 #include "Condition.h"
 #include <assert.h>
@@ -15,7 +15,7 @@
 namespace windz {
 
 template <typename T>
-class BlockingQueue : private noncopyable {
+class BlockingQueue : private Noncopyable {
   public:
     // maxsize == 0 means no limit
     explicit BlockingQueue(size_t maxsize = 0)

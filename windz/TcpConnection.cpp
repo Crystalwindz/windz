@@ -79,7 +79,6 @@ void TcpConnection::SendInLoop(const void *message, size_t len) {
     size_t remain = len;
     bool err = false;
     if (state_ == kDisconnected) {
-        //TODO: LOG AND why???
         return;
     }
 

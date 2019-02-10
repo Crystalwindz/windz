@@ -5,7 +5,7 @@
 #ifndef WINDZ_THREAD_H
 #define WINDZ_THREAD_H
 
-#include "Util.h"
+#include "Noncopyable.h"
 #include "Atomic.h"
 #include "CountDownLatch.h"
 #include "CurrentThread.h"
@@ -15,7 +15,7 @@
 
 namespace windz {
 
-class Thread : private noncopyable {
+class Thread : private Noncopyable {
   public:
     using ThreadFunc = std::function<void()>;
 
