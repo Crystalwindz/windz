@@ -9,12 +9,11 @@
 #include "Mutex.h"
 #include "Condition.h"
 #include "Thread.h"
+#include "EventLoop.h"
 #include <functional>
 #include <string>
 
 namespace windz{
-
-class EventLoop;
 
 class EventLoopThread : private Noncopyable {
   public:

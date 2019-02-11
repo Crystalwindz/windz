@@ -25,6 +25,9 @@ target_link_libraries(eventloop_test windz)
 add_executable(eventloopthreadpool_test eventloopthreadpool_test.cpp)
 target_link_libraries(eventloopthreadpool_test windz)
 
+add_executable(logger_test logger_test.cpp)
+target_link_libraries(logger_test windz)
+
 add_executable(tcpserver_test tcpserver_test.cpp)
 target_link_libraries(tcpserver_test windz)
 

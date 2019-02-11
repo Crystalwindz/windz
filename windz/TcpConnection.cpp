@@ -28,6 +28,8 @@ TcpConnection::TcpConnection(ObserverPtr<EventLoop> loop, const std::string &nam
 }
 
 TcpConnection::~TcpConnection() {
+    channel_->DisableReadWrite();
+    channel_->Close();
     socket_.Close();
 }
 

@@ -7,15 +7,13 @@
 
 #include "Noncopyable.h"
 #include "Util.h"
+#include "EventLoopThread.h"
 #include <functional>
 #include <string>
 #include <vector>
 #include <memory>
 
 namespace windz {
-
-class EventLoop;
-class EventLoopThread;
 
 class EventLoopThreadPool : private Noncopyable {
   public:

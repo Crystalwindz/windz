@@ -15,7 +15,7 @@ set(SRCS
     EventLoopThreadPool.cpp
     Acceptor.cpp
         Connector.cpp
-    TcpServer.cpp TcpConnection.cpp TcpConnection.h)
+    TcpServer.cpp TcpConnection.cpp TcpConnection.h TcpClient.cpp TcpClient.h FileUtil.cpp FileUtil.h LogFile.cpp LogFile.h AsyncLogging.cpp AsyncLogging.h LogStream.cpp LogStream.h Logger.cpp Logger.h)
 
 set(HEADER
         Acceptor.h

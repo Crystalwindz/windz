@@ -28,7 +28,7 @@ pid_t GetTid() {
 void CacheTid() {
     if (t_tid == 0) {
         t_tid = GetTid();
-        t_tid_str_len = snprintf(t_tid_str, sizeof(t_tid_str), "%5d", t_tid);
+        t_tid_str_len = snprintf(t_tid_str, sizeof(t_tid_str), "%5d ", t_tid);
     }
 }
 
