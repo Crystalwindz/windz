@@ -1,10 +1,10 @@
 #ifndef WINDZ_THREAD_H
 #define WINDZ_THREAD_H
 
-#include "Noncopyable.h"
 #include "Atomic.h"
 #include "CountDownLatch.h"
 #include "CurrentThread.h"
+#include "Noncopyable.h"
 
 #include <pthread.h>
 
@@ -42,6 +42,6 @@ class Thread : Noncopyable {
     CountDownLatch latch_;
 };
 
-}  //namespace windz
+}  // namespace windz
 
-#endif //WINDZ_THREAD_H
+#endif  // WINDZ_THREAD_H

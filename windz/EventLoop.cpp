@@ -1,32 +1,34 @@
 #include "EventLoop.h"
 #include "Channel.h"
 #include "Epoller.h"
-#include "Timer.h"
 #include "Mutex.h"
+#include "Timer.h"
 
 #include <assert.h>
 #include <sys/eventfd.h>
 
-#include <set>
 #include <algorithm>
+#include <set>
 
 namespace windz {
 
 __thread EventLoop *t_eventloop_ptr = nullptr;
 
-EventLoop::EventLoop() : looping_(false), quit_(false),
-                         event_handling_(false),
-                         pending_functors_calling_(false),
-                         tid_(currentthread::tid()),
-                         epoller_(MakeUnique<Epoller>(this)),
-                         timer_manager_(MakeUnique<TimerManager>(this)) {
+EventLoop::EventLoop()
+    : looping_(false),
+      quit_(false),
+      event_handling_(false),
+      pending_functors_calling_(false),
+      tid_(currentthread::tid()),
+      epoller_(MakeUnique<Epoller>(this)),
+      timer_manager_(MakeUnique<TimerManager>(this)) {
     if (t_eventloop_ptr) {
-        abort();//TODO: LOGFATAL
+        abort();  // TODO: LOGFATAL
     } else {
         t_eventloop_ptr = this;
         wakeup_fd_ = eventfd(0, EFD_CLOEXEC | EFD_NONBLOCK);
         wakeup_channel_ = std::make_shared<Channel>(this, wakeup_fd_);
-        wakeup_channel_->SetReadHandler([this]{ this->HandleRead(); });
+        wakeup_channel_->SetReadHandler([this] { this->HandleRead(); });
         wakeup_channel_->EnableRead();
     }
 }
@@ -51,7 +53,7 @@ void EventLoop::Loop() {
         active_channels_.clear();
         int64_t waitms = std::min(int64_t(10000), timer_manager_->NextTimeout());
         epoller_->LoopOnce(waitms, active_channels_);
-        for (const auto &i: active_channels_) {
+        for (const auto &i : active_channels_) {
             i->HandleEvents();
         }
         timer_manager_->HandleExpired();
@@ -94,16 +96,14 @@ TimerId EventLoop::RunEvery(const Duration &interval, Functor func) {
     return timer_manager_->AddTimer(std::move(func), Timestamp::Now() + interval, interval);
 }
 
-void EventLoop::CancelTimer(const TimerId &timerid) {
-    timer_manager_->Cancel(timerid);
-}
+void EventLoop::CancelTimer(const TimerId &timerid) { timer_manager_->Cancel(timerid); }
 
 void EventLoop::WakeUp() {
-   uint64_t one = 1;
-   ssize_t n = write(wakeup_fd_, &one, sizeof(one));
-   if (n != sizeof(one)) {
-       // TODO LOG
-   }
+    uint64_t one = 1;
+    ssize_t n = write(wakeup_fd_, &one, sizeof(one));
+    if (n != sizeof(one)) {
+        // TODO LOG
+    }
 }
 
 void EventLoop::AddChannel(const ChannelSPtr &ch) {
@@ -113,7 +113,7 @@ void EventLoop::AddChannel(const ChannelSPtr &ch) {
     epoller_->AddChannel(ChannelOPtr(ch));
 }
 
-void EventLoop::UpdateChannel(const ChannelSPtr &ch){
+void EventLoop::UpdateChannel(const ChannelSPtr &ch) {
     assert(ch->loop() == this);
     assert(IsInLoopThread());
     if (HasChannel(ch)) {
@@ -135,15 +135,13 @@ bool EventLoop::HasChannel(const ChannelSPtr &ch) {
     return iter != channels_.end();
 }
 
-ObserverPtr<EventLoop> EventLoop::GetThisThreadEventLoopPtr() {
-    return t_eventloop_ptr;
-}
+ObserverPtr<EventLoop> EventLoop::GetThisThreadEventLoopPtr() { return t_eventloop_ptr; }
 
 void EventLoop::HandleRead() {
     uint64_t one = 1;
     ssize_t n = read(wakeup_fd_, &one, sizeof(one));
     if (n != sizeof(one)) {
-        //TODO LOG
+        // TODO LOG
     }
 }
 

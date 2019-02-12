@@ -14,4 +14,4 @@ class Noncopyable {
 
 }  // namespace windz
 
-#endif //WINDZ_NONCOPYABLE_H
+#endif  // WINDZ_NONCOPYABLE_H

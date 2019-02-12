@@ -1,13 +1,13 @@
 #include "Config.h"
 
-#include <stdlib.h>
 #include <ctype.h>
+#include <stdlib.h>
 
-#include <string>
-#include <map>
-#include <list>
-#include <memory>
 #include <algorithm>
+#include <list>
+#include <map>
+#include <memory>
+#include <string>
 
 namespace windz {
 
@@ -23,9 +23,7 @@ class LineParser {
   public:
     explicit LineParser(const char *line) : line_(line) {}
 
-    void Assign(const char *line) {
-        line_ = line;
-    }
+    void Assign(const char *line) { line_ = line; }
 
     LineParser &SkipSpace() {
         while (isspace(*line_)) {
@@ -35,9 +33,9 @@ class LineParser {
     }
     std::string Strip(const char *begin, const char *end) {
         while (begin < end && isspace(*begin)) {
-           ++begin;
+            ++begin;
         }
-        while (end > begin && isspace(*(end-1))) {
+        while (end > begin && isspace(*(end - 1))) {
             --end;
         }
 
@@ -114,7 +112,7 @@ int Config::Parse(const std::string &filename) {
         ++line_num;
         line_parser.Assign(line);
         char c = line_parser.Peek();
-        if (c == '#' || c == '\0') { // comment or blank line
+        if (c == '#' || c == '\0') {  // comment or blank line
             continue;
         } else if (c == '[') {  // section
             section = line_parser.Skip(1).Till(']');
@@ -138,7 +136,7 @@ int Config::Parse(const std::string &filename) {
                 name = line_parser.Till(':');
                 error = !line_parser.Match(':');
             }
-            if (!error){
+            if (!error) {
                 config_[MakeKey(section, name)].push_back(line_parser.Skip(1).TillSpace());
             }
         }
@@ -180,7 +178,7 @@ bool Config::GetBool(std::string section, std::string name, bool default_value) 
         return true;
     } else if (bool_str == "false" || bool_str == "no" || bool_str == "off" || bool_str == "0") {
         return false;
-    } else{
+    } else {
         return default_value;
     }
 }

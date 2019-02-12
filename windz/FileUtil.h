@@ -21,10 +21,10 @@ class AppendFile : Noncopyable {
 
   private:
     FILE *fp_;
-    char buf_[64*1024];
+    char buf_[64 * 1024];
     off_t written_bytes_;
 };
 
 }  // namespace windz
 
-#endif //WINDZ_FILEUTIL_H
+#endif  // WINDZ_FILEUTIL_H

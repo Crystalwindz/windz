@@ -17,8 +17,7 @@ class ThreadData {
     using ThreadFunc = windz::Thread::ThreadFunc;
 
     ThreadData(ThreadFunc func, std::string name, pid_t *tid, CountDownLatch *latch)
-            : func_(std::move(func)), name_(std::move(name)), tid_(tid), latch_(latch)
-    {}
+        : func_(std::move(func)), name_(std::move(name)), tid_(tid), latch_(latch) {}
 
     void RunInThread() {
         *tid_ = currentthread::tid();
@@ -50,12 +49,22 @@ void *StartThread(void *arg) {
 AtomicInt32 Thread::thread_num_;
 
 Thread::Thread(const ThreadFunc &func, const std::string &name)
-    : started_(false), joined_(false), pthread_id_(0), tid_(0),
-      func_(func), name_(name), latch_(1) {}
+    : started_(false),
+      joined_(false),
+      pthread_id_(0),
+      tid_(0),
+      func_(func),
+      name_(name),
+      latch_(1) {}
 
 Thread::Thread(ThreadFunc &&func, const std::string &name)
-        : started_(false), joined_(false), pthread_id_(0), tid_(0),
-          func_(std::move(func)), name_(name), latch_(1) {}
+    : started_(false),
+      joined_(false),
+      pthread_id_(0),
+      tid_(0),
+      func_(std::move(func)),
+      name_(name),
+      latch_(1) {}
 
 Thread::~Thread() {
     if (started_ && !joined_) {
@@ -72,7 +81,7 @@ bool Thread::Start() {
         delete data;
         return false;
     } else {
-        latch_.Wait();// 确保线程真正开始后才返回
+        latch_.Wait();  // 确保线程真正开始后才返回
         return true;
     }
 }

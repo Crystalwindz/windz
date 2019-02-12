@@ -6,9 +6,9 @@
 #include "windz/Util.h"
 
 #include <libgen.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <stdio.h>
 
 using namespace windz;
 
@@ -18,6 +18,6 @@ int main(int argc, char **argv) {
         exit(1);
     }
     daemon::Process(argv[1]);
-    //system::Signal(SIGQUIT, SIG_IGN);
+    // system::Signal(SIGQUIT, SIG_IGN);
     sleep(10);
 }

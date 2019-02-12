@@ -1,29 +1,28 @@
 #include "Acceptor.h"
-#include "Socket.h"
 #include "Channel.h"
 #include "EventLoop.h"
+#include "Socket.h"
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include <memory>
 
 namespace windz {
 
 Acceptor::Acceptor(ObserverPtr<EventLoop> loop, const InetAddr &addr, bool reuseport)
-        : loop_(loop), socket_(Socket::CreateNonblockSocket()),
-          channel_(std::make_shared<Channel>(loop, socket_.sockfd())),
-          listenning_(false),
-          idle_fd_(::open("/dev/null", O_RDONLY | O_CLOEXEC)) {
+    : loop_(loop),
+      socket_(Socket::CreateNonblockSocket()),
+      channel_(std::make_shared<Channel>(loop, socket_.sockfd())),
+      listenning_(false),
+      idle_fd_(::open("/dev/null", O_RDONLY | O_CLOEXEC)) {
     assert(idle_fd_ > 0);
     socket_.SetReuseAddr(true);
     socket_.SetReusePort(reuseport);
     socket_.Bind(addr);
-    channel_->SetReadHandler([this]{
-        HandleRead();
-    });
+    channel_->SetReadHandler([this] { HandleRead(); });
 }
 
 Acceptor::~Acceptor() {

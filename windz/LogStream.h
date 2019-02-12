@@ -10,12 +10,12 @@
 namespace windz {
 
 const int kSmallBuffer = 4000;
-const int kLargeBuffer = 4000*1000;
+const int kLargeBuffer = 4000 * 1000;
 
-template<int SIZE>
+template <int SIZE>
 class FixBuffer : Noncopyable {
   public:
-    FixBuffer() : cur_(data_) { }
+    FixBuffer() : cur_(data_) {}
     ~FixBuffer() = default;
 
     void Append(const char *data, size_t len) {
@@ -73,7 +73,7 @@ class LogStream : Noncopyable {
     void ResetBuffer() { buffer_.Reset(); }
 
   private:
-    template<typename T>
+    template <typename T>
     void FormatInteger(T);
 
     Buffer buffer_;
@@ -83,4 +83,4 @@ class LogStream : Noncopyable {
 
 }  // namespace windz
 
-#endif //WINDZ_LOGSTREAM_H
+#endif  // WINDZ_LOGSTREAM_H

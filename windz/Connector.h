@@ -1,23 +1,22 @@
 #ifndef WINDZ_CONNECTOR_H
 #define WINDZ_CONNECTOR_H
 
-#include "Noncopyable.h"
-#include "Socket.h"
+#include "Atomic.h"
 #include "Channel.h"
 #include "Duration.h"
-#include "Atomic.h"
+#include "Noncopyable.h"
+#include "Socket.h"
 
-#include <memory>
 #include <functional>
+#include <memory>
 
 namespace windz {
 
 class EventLoop;
 
-class Connector : Noncopyable,
-                  public std::enable_shared_from_this<Connector> {
+class Connector : Noncopyable, public std::enable_shared_from_this<Connector> {
   public:
-    using ConnectionCallBack = std::function<void (const Socket &)>;
+    using ConnectionCallBack = std::function<void(const Socket &)>;
 
     Connector(ObserverPtr<EventLoop> loop, const InetAddr &addr);
     ~Connector();
@@ -52,4 +51,4 @@ class Connector : Noncopyable,
 
 }  // namespace windz
 
-#endif //WINDZ_CONNECTOR_H
+#endif  // WINDZ_CONNECTOR_H

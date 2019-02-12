@@ -1,13 +1,13 @@
 #include "Socket.h"
 #include "Noncopyable.h"
 
-#include <netinet/in.h>
 #include <arpa/inet.h>
-#include <sys/types.h>
-#include <sys/socket.h>
+#include <assert.h>
+#include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <string.h>
-#include <assert.h>
+#include <sys/socket.h>
+#include <sys/types.h>
 
 #include <string>
 
@@ -33,9 +33,7 @@ std::string InetAddr::IpString() const {
     return std::string(buf);
 }
 
-uint16_t InetAddr::PortUint16() const {
-    return ntohs(addr_.sin_port);
-}
+uint16_t InetAddr::PortUint16() const { return ntohs(addr_.sin_port); }
 
 std::string InetAddr::IpPortString() const {
     std::string ip = IpString();
@@ -43,9 +41,7 @@ std::string InetAddr::IpPortString() const {
     return ip + ':' + port;
 }
 
-const struct sockaddr *InetAddr::SockAddr() const {
-    return (struct sockaddr *)&addr_;
-}
+const struct sockaddr *InetAddr::SockAddr() const { return (struct sockaddr *)&addr_; }
 
 Socket Socket::CreateNonblockSocket() {
     int sockfd = ::socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC, IPPROTO_TCP);
@@ -66,12 +62,11 @@ Socket Socket::Accept(InetAddr *peer_addr) const {
     struct sockaddr_in addr;
     memset(&addr, 0, sizeof(addr));
     socklen_t len = sizeof(addr);
-    int connfd = ::accept4(sockfd_, (struct sockaddr *)&addr,
-                           &len, SOCK_NONBLOCK | SOCK_CLOEXEC);
+    int connfd = ::accept4(sockfd_, (struct sockaddr *)&addr, &len, SOCK_NONBLOCK | SOCK_CLOEXEC);
     if (peer_addr != nullptr && connfd >= 0) {
         peer_addr->SetAddr(addr);
     }
-    //TODO: Error Check
+    // TODO: Error Check
     return Socket(connfd);
 }
 
@@ -120,29 +115,25 @@ int Socket::SocketError() const {
 
 bool Socket::SetTcpNoDelay(bool flag) const {
     int optval = flag ? 1 : 0;
-    int r = ::setsockopt(sockfd_, IPPROTO_TCP, TCP_NODELAY,
-                         &optval, sizeof(optval));
+    int r = ::setsockopt(sockfd_, IPPROTO_TCP, TCP_NODELAY, &optval, sizeof(optval));
     return r == 0;
 }
 
 bool Socket::SetReuseAddr(bool flag) const {
     int optval = flag ? 1 : 0;
-    int r = ::setsockopt(sockfd_, SOL_SOCKET, SO_REUSEADDR,
-                         &optval, sizeof(optval));
+    int r = ::setsockopt(sockfd_, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
     return r == 0;
 }
 
 bool Socket::SetReusePort(bool flag) const {
     int optval = flag ? 1 : 0;
-    int r = ::setsockopt(sockfd_, SOL_SOCKET, SO_REUSEPORT,
-                         &optval, sizeof(optval));
+    int r = ::setsockopt(sockfd_, SOL_SOCKET, SO_REUSEPORT, &optval, sizeof(optval));
     return r == 0;
 }
 
 bool Socket::SetKeepAlive(bool flag) const {
     int optval = flag ? 1 : 0;
-    int r = ::setsockopt(sockfd_, SOL_SOCKET, SO_KEEPALIVE,
-                         &optval, sizeof(optval));
+    int r = ::setsockopt(sockfd_, SOL_SOCKET, SO_KEEPALIVE, &optval, sizeof(optval));
     return r == 0;
 }
 
@@ -151,8 +142,7 @@ bool Socket::SetLinger(bool flag, int linger) const {
     struct linger optval;
     optval.l_onoff = flag ? 1 : 0;
     optval.l_linger = linger;
-    int r = ::setsockopt(sockfd_, SOL_SOCKET, SO_LINGER,
-                         &optval, sizeof(optval));
+    int r = ::setsockopt(sockfd_, SOL_SOCKET, SO_LINGER, &optval, sizeof(optval));
     return r == 0;
 }
 

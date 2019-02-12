@@ -63,18 +63,22 @@ class Logger {
 //   else
 //     logWarnStream << "Bad news";
 //
-#define LOG_TRACE if (windz::Logger::Level() <= windz::Logger::LogLevel::TRACE) \
-  windz::Logger(__FILE__, __LINE__, windz::Logger::LogLevel::TRACE, __func__).stream()
-#define LOG_DEBUG if (windz::Logger::Level() <= windz::Logger::LogLevel::DEBUG) \
-  windz::Logger(__FILE__, __LINE__, windz::Logger::LogLevel::DEBUG, __func__).stream()
-#define LOG_INFO if (windz::Logger::Level() <= windz::Logger::LogLevel::INFO) \
-  windz::Logger(__FILE__, __LINE__, windz::Logger::LogLevel::INFO, __func__).stream()
+#define LOG_TRACE                                                 \
+    if (windz::Logger::Level() <= windz::Logger::LogLevel::TRACE) \
+    windz::Logger(__FILE__, __LINE__, windz::Logger::LogLevel::TRACE, __func__).stream()
+#define LOG_DEBUG                                                 \
+    if (windz::Logger::Level() <= windz::Logger::LogLevel::DEBUG) \
+    windz::Logger(__FILE__, __LINE__, windz::Logger::LogLevel::DEBUG, __func__).stream()
+#define LOG_INFO                                                 \
+    if (windz::Logger::Level() <= windz::Logger::LogLevel::INFO) \
+    windz::Logger(__FILE__, __LINE__, windz::Logger::LogLevel::INFO, __func__).stream()
 #define LOG_WARN windz::Logger(__FILE__, __LINE__, windz::Logger::LogLevel::WARN).stream()
 #define LOG_ERROR windz::Logger(__FILE__, __LINE__, windz::Logger::LogLevel::ERROR).stream()
 #define LOG_FATAL windz::Logger(__FILE__, __LINE__, windz::Logger::LogLevel::FATAL).stream()
 #define LOG_SYSERR windz::Logger(__FILE__, __LINE__, windz::Logger::LogLevel::ERROR, errno).stream()
-#define LOG_SYSFATAL windz::Logger(__FILE__, __LINE__, windz::Logger::LogLevel::FATAL, errno).stream()
+#define LOG_SYSFATAL \
+    windz::Logger(__FILE__, __LINE__, windz::Logger::LogLevel::FATAL, errno).stream()
 
 }  // namespace windz
 
-#endif //WINDZ_LOGGER_H
+#endif  // WINDZ_LOGGER_H

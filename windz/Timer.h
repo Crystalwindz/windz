@@ -2,15 +2,15 @@
 #define WINDZ_TIMERQUEUE_H
 
 #include "Atomic.h"
-#include "Noncopyable.h"
 #include "Memory.h"
+#include "Noncopyable.h"
 #include "Timestamp.h"
 
 #include <assert.h>
 
 #include <functional>
-#include <vector>
 #include <memory>
+#include <vector>
 
 namespace windz {
 
@@ -35,14 +35,12 @@ class Timer : Noncopyable {
     using CallBack = std::function<void()>;
 
     Timer(const CallBack &cb, const Timestamp &when, const Duration &interval)
-            : cb_(cb), when_(when),
-              interval_(interval), repeat_(!interval.IsZero()),
-              canceled_(false) { ++timer_num_; }
+        : cb_(cb), when_(when), interval_(interval), repeat_(!interval.IsZero()), canceled_(false) {
+        ++timer_num_;
+    }
     ~Timer() { --timer_num_; }
 
-    void Run() const {
-        cb_();
-    }
+    void Run() const { cb_(); }
     void Restart(const Timestamp &when) {
         if (repeat_) {
             when_ = when + interval_;
@@ -97,4 +95,4 @@ class TimerManager : Noncopyable {
 
 }  // namespace windz
 
-#endif //WINDZ_TIMERQUEUE_H
+#endif  // WINDZ_TIMERQUEUE_H

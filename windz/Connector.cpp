@@ -1,8 +1,8 @@
 #include "Connector.h"
-#include "EventLoop.h"
 #include "Channel.h"
-#include "Socket.h"
 #include "Duration.h"
+#include "EventLoop.h"
+#include "Socket.h"
 #include "Timer.h"
 
 #include <assert.h>
@@ -13,14 +13,14 @@ const Duration Connector::kMaxRetryDuration(30.0);
 const Duration Connector::kInitRetryDuration(0.1);
 
 Connector::Connector(ObserverPtr<EventLoop> loop, const InetAddr &addr)
-: loop_(loop), addr_(addr), start_(false),
-  state_(kDisconnected), retry_duration_(kInitRetryDuration) {
-    /*empty*/
-}
+    : loop_(loop),
+      addr_(addr),
+      start_(false),
+      state_(kDisconnected),
+      retry_duration_(kInitRetryDuration)
+{}
 
-Connector::~Connector() {
-    assert(!channel_);
-}
+Connector::~Connector() { assert(!channel_); }
 
 void Connector::Start() {
     start_.SetTrue();
@@ -96,8 +96,8 @@ void Connector::Connecting(const Socket &sockfd) {
     state_ = kConnecting;
     assert(!channel_);
     channel_ = std::make_shared<Channel>(loop_.Get(), sockfd.sockfd());
-    channel_->SetWriteHandler([this]{ HandleWrite(); });
-    channel_->SetErrorHandler([this]{ HandleError(); });
+    channel_->SetWriteHandler([this] { HandleWrite(); });
+    channel_->SetErrorHandler([this] { HandleError(); });
     channel_->Tie(shared_from_this());
     channel_->EnableWrite();
 }
@@ -107,14 +107,14 @@ void Connector::Retry(const Socket &sockfd) {
     state_ = kDisconnected;
     if (start_) {
         auto self(shared_from_this());
-        loop_->RunAfter(retry_duration_, [this, self]{
+        loop_->RunAfter(retry_duration_, [this, self] {
             loop_->AssertInLoopThread();
             assert(state_ == kDisconnected);
             if (start_) {
                 Connect();
             }
         });
-        retry_duration_*=2;
+        retry_duration_ *= 2;
         if (retry_duration_ > kMaxRetryDuration) {
             retry_duration_ = kMaxRetryDuration;
         }
@@ -128,8 +128,7 @@ void Connector::HandleWrite() {
     int err = socket.SocketError();
     if (err) {
         Retry(socket);
-    } else if (socket.LocalAddr().IpPortString()
-               == socket.PeerAddr().IpPortString()) {
+    } else if (socket.LocalAddr().IpPortString() == socket.PeerAddr().IpPortString()) {
         Retry(socket);
     } else {
         state_ = kConnected;

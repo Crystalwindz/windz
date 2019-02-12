@@ -1,20 +1,20 @@
 #ifndef WINDZ_EVENTLOOP_H
 #define WINDZ_EVENTLOOP_H
 
-#include "Noncopyable.h"
-#include "Memory.h"
-#include "Thread.h"
-#include "Mutex.h"
 #include "BlockingQueue.h"
-#include "Timestamp.h"
 #include "Channel.h"
 #include "Epoller.h"
+#include "Memory.h"
+#include "Mutex.h"
+#include "Noncopyable.h"
+#include "Thread.h"
 #include "Timer.h"
+#include "Timestamp.h"
 
 #include <unistd.h>
 
-#include <memory>
 #include <functional>
+#include <memory>
 #include <set>
 #include <vector>
 
@@ -48,12 +48,8 @@ class EventLoop : Noncopyable {
     void RemoveChannel(const ChannelSPtr &ch);
     bool HasChannel(const ChannelSPtr &ch);
 
-    bool IsInLoopThread() const {
-        return tid_ == currentthread::tid();
-    }
-    void AssertInLoopThread() const {
-        assert(IsInLoopThread());
-    }
+    bool IsInLoopThread() const { return tid_ == currentthread::tid(); }
+    void AssertInLoopThread() const { assert(IsInLoopThread()); }
 
     static ObserverPtr<EventLoop> GetThisThreadEventLoopPtr();
 
@@ -80,4 +76,4 @@ class EventLoop : Noncopyable {
 
 }  // namespace windz
 
-#endif //WINDZ_EVENTLOOP_H
+#endif  // WINDZ_EVENTLOOP_H

@@ -1,26 +1,25 @@
 #ifndef WINDZ_TCPCONNECTION_H
 #define WINDZ_TCPCONNECTION_H
 
-#include "Noncopyable.h"
-#include "Memory.h"
-#include "Socket.h"
 #include "Buffer.h"
 #include "CallBack.h"
+#include "Channel.h"
 #include "Duration.h"
 #include "EventLoop.h"
-#include "Channel.h"
+#include "Memory.h"
+#include "Noncopyable.h"
+#include "Socket.h"
 
-#include <string>
-#include <memory>
 #include <functional>
+#include <memory>
+#include <string>
 
 namespace windz {
 
-class TcpConnection : Noncopyable,
-                      public std::enable_shared_from_this<TcpConnection> {
+class TcpConnection : Noncopyable, public std::enable_shared_from_this<TcpConnection> {
   public:
-    TcpConnection(ObserverPtr<EventLoop> loop, const std::string &name,
-                  const Socket &sockfd, const InetAddr &local, const InetAddr &peer);
+    TcpConnection(ObserverPtr<EventLoop> loop, const std::string &name, const Socket &sockfd,
+                  const InetAddr &local, const InetAddr &peer);
     ~TcpConnection();
 
     void EstablishConnection();
@@ -34,21 +33,11 @@ class TcpConnection : Noncopyable,
     void ForceCloseAfter(const Duration &delay);
     void SetTcpNoDelay(bool flag);
 
-    void SetConnectionCallBack(const ConnectionCallBack &cb) {
-        connection_cb_ = cb;
-    }
-    void SetMessageCallBack(const MessageCallBack &cb) {
-        message_cb_ = cb;
-    }
-    void SetLowWaterMarkCallBack(const LowWaterMarkCallBack &cb) {
-        low_watermark_cb_ = cb;
-    }
-    void SetHighWaterMarkCallBack(const HighWaterMarkCallBack &cb) {
-        high_watermark_cb_ = cb;
-    }
-    void SetCloseCallBack(const CloseCallBack &cb) {
-        close_cb_ = cb;
-    }
+    void SetConnectionCallBack(const ConnectionCallBack &cb) { connection_cb_ = cb; }
+    void SetMessageCallBack(const MessageCallBack &cb) { message_cb_ = cb; }
+    void SetLowWaterMarkCallBack(const LowWaterMarkCallBack &cb) { low_watermark_cb_ = cb; }
+    void SetHighWaterMarkCallBack(const HighWaterMarkCallBack &cb) { high_watermark_cb_ = cb; }
+    void SetCloseCallBack(const CloseCallBack &cb) { close_cb_ = cb; }
 
     bool connected() const { return state_ == kConnected; }
     ObserverPtr<EventLoop> loop() const { return loop_; }
@@ -87,4 +76,4 @@ class TcpConnection : Noncopyable,
 
 }  // namespace windz
 
-#endif //WINDZ_TCPCONNECTION_H
+#endif  // WINDZ_TCPCONNECTION_H

@@ -26,4 +26,4 @@ ssize_t WriteFd(int fd, std::string &buf);
 
 }  // namespace windz
 
-#endif //WINDZ_UTIL_H
+#endif  // WINDZ_UTIL_H

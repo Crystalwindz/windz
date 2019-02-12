@@ -10,13 +10,12 @@
 namespace windz {
 
 EventLoopThreadPool::EventLoopThreadPool()
-        : started_(false),
-          next_(0),
-          tid_(currentthread::tid())
-{ }
+    : started_(false),
+      next_(0),
+      tid_(currentthread::tid())
+{}
 
-EventLoopThreadPool::~EventLoopThreadPool() {
-    /* empty */
+EventLoopThreadPool::~EventLoopThreadPool() { /* empty */
 }
 
 void EventLoopThreadPool::Start(size_t thread_num) {

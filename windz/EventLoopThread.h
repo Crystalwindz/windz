@@ -1,16 +1,16 @@
 #ifndef WINDZ_EVENTLOOPTHREAD_H
 #define WINDZ_EVENTLOOPTHREAD_H
 
-#include "Noncopyable.h"
-#include "Mutex.h"
 #include "Condition.h"
-#include "Thread.h"
 #include "EventLoop.h"
+#include "Mutex.h"
+#include "Noncopyable.h"
+#include "Thread.h"
 
 #include <functional>
 #include <string>
 
-namespace windz{
+namespace windz {
 
 class EventLoopThread : Noncopyable {
   public:
@@ -30,4 +30,4 @@ class EventLoopThread : Noncopyable {
 
 }  // namespace windz
 
-#endif //WINDZ_EVENTLOOPTHREAD_H
+#endif  // WINDZ_EVENTLOOPTHREAD_H

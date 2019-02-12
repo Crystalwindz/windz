@@ -25,13 +25,9 @@ void Buffer::ReleaseUntil(const char *c) {
     Release(c - Peek());
 }
 
-void Buffer::ReleaseAll() {
-    Release(ReadableBytes());
-}
+void Buffer::ReleaseAll() { Release(ReadableBytes()); }
 
-std::string Buffer::ReadAll() {
-    return Read(ReadableBytes());
-}
+std::string Buffer::ReadAll() { return Read(ReadableBytes()); }
 
 std::string Buffer::Read(size_t len) {
     assert(len <= ReadableBytes());
@@ -49,9 +45,7 @@ void Buffer::Write(const char *data, size_t len) {
     write_index_ += len;
 }
 
-void Buffer::Write(const std::string &s) {
-    Write(s.c_str(), s.size());
-}
+void Buffer::Write(const std::string &s) { Write(s.c_str(), s.size()); }
 
 void Buffer::UnWrite(size_t len) {
     assert(len <= ReadableBytes());
@@ -65,9 +59,7 @@ void Buffer::Prepend(const void *data, size_t len) {
     std::copy(p, p + len, &buffer_[read_index_]);
 }
 
-void Buffer::Prepend(const std::string &s) {
-    Prepend(s.c_str(), s.size());
-}
+void Buffer::Prepend(const std::string &s) { Prepend(s.c_str(), s.size()); }
 
 void Buffer::Shrink(size_t reserve) {
     AlignPrepend();
@@ -96,13 +88,11 @@ ssize_t Buffer::ReadFd(int fd) {
     return n;
 }
 
-ssize_t Buffer::ReadSocket(const windz::Socket &socket) {
-    return ReadFd(socket.sockfd());
-}
+ssize_t Buffer::ReadSocket(const windz::Socket &socket) { return ReadFd(socket.sockfd()); }
 
 void Buffer::AlignPrepend() {
     size_t read_byte = ReadableBytes();
-    if (read_index_ == kPrependSize){
+    if (read_index_ == kPrependSize) {
         return;
     } else if (read_index_ < kPrependSize) {
         if (buffer_.size() < read_byte + kPrependSize) {
@@ -111,8 +101,7 @@ void Buffer::AlignPrepend() {
         std::copy_backward(&buffer_[read_index_], &buffer_[write_index_],
                            &buffer_[read_byte + kPrependSize]);
     } else {
-        std::copy(&buffer_[read_index_], &buffer_[write_index_],
-                  &buffer_[kPrependSize]);
+        std::copy(&buffer_[read_index_], &buffer_[write_index_], &buffer_[kPrependSize]);
     }
     read_index_ = kPrependSize;
     write_index_ = read_index_ + read_byte;

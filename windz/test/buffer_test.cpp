@@ -32,8 +32,8 @@ void test1() {
     TEST(s2, string(50, 'a'));
 
     buf.Write(s1);
-    TEST(buf.ReadableBytes(), 2*s1.size() - s2.size());
-    TEST(buf.WritableBytes(), Buffer::kInitSize - 2*s1.size());
+    TEST(buf.ReadableBytes(), 2 * s1.size() - s2.size());
+    TEST(buf.WritableBytes(), Buffer::kInitSize - 2 * s1.size());
     TEST(buf.PrependableBytes(), Buffer::kPrependSize + s2.size());
 
     string s3 = buf.ReadAll();
@@ -62,7 +62,7 @@ void test2() {
     TEST(buf.PrependableBytes(), Buffer::kPrependSize);
 
     buf.ReleaseAll();
-    TEST(buf.ReadableBytes(),0);
+    TEST(buf.ReadableBytes(), 0);
     TEST(buf.WritableBytes(), 1400);
     TEST(buf.PrependableBytes(), Buffer::kPrependSize);
 }

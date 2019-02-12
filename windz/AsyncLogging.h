@@ -1,24 +1,23 @@
 #ifndef WINDZ_ASYNCLOGGING_H
 #define WINDZ_ASYNCLOGGING_H
 
-#include "Noncopyable.h"
-#include "LogStream.h"
-#include "Thread.h"
-#include "CountDownLatch.h"
-#include "Condition.h"
-#include "Mutex.h"
 #include "Atomic.h"
+#include "Condition.h"
+#include "CountDownLatch.h"
+#include "LogStream.h"
+#include "Mutex.h"
+#include "Noncopyable.h"
+#include "Thread.h"
 
-#include <vector>
-#include <string>
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace windz {
 
 class AsyncLogging : Noncopyable {
   public:
-    AsyncLogging(const std::string &basename,
-    off_t roll_size, int flush_interval = 3);
+    AsyncLogging(const std::string &basename, off_t roll_size, int flush_interval = 3);
 
     ~AsyncLogging();
 
@@ -50,4 +49,4 @@ class AsyncLogging : Noncopyable {
 
 }  // namespace windz
 
-#endif //WINDZ_ASYNCLOGGING_H
+#endif  // WINDZ_ASYNCLOGGING_H

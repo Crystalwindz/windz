@@ -4,8 +4,8 @@
 
 #include "windz/Logger.h"
 
-#include <limits.h>
 #include <float.h>
+#include <limits.h>
 
 #include <string>
 
@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
     LOG_INFO << "long long " << static_cast<long long>(INT64_MAX);
     LOG_INFO << "float " << FLT_MAX << " " << FLT_MIN;
     LOG_INFO << "double " << DBL_MAX << " " << DBL_MIN;
-    LOG_INFO << "char " << 'd' <<'f';
+    LOG_INFO << "char " << 'd' << 'f';
     LOG_INFO << static_cast<const char *>(nullptr);
     int a;
     LOG_INFO << &a;
@@ -40,6 +40,6 @@ int main(int argc, char **argv) {
     LOG_ERROR << "test error";
     errno = 14;
     LOG_SYSERR << "test syserr";
-    //LOG_FATAL << "test fatal";
+    // LOG_FATAL << "test fatal";
     LOG_SYSFATAL << "test sysfatal";
 }

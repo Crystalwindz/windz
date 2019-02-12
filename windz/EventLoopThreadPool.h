@@ -1,13 +1,13 @@
 #ifndef WINDZ_EVENTLOOPTHREADPOOL_H
 #define WINDZ_EVENTLOOPTHREADPOOL_H
 
-#include "Noncopyable.h"
 #include "EventLoopThread.h"
+#include "Noncopyable.h"
 
 #include <functional>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 
 namespace windz {
 
@@ -30,4 +30,4 @@ class EventLoopThreadPool : Noncopyable {
 
 }  // namespace windz
 
-#endif //WINDZ_EVENTLOOPTHREADPOOL_H
+#endif  // WINDZ_EVENTLOOPTHREADPOOL_H

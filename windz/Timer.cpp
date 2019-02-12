@@ -1,12 +1,12 @@
-#include "Atomic.h"
 #include "Timer.h"
+#include "Atomic.h"
 #include "EventLoop.h"
 #include "Timestamp.h"
 
+#include <assert.h>
+#include <string.h>
 #include <sys/timerfd.h>
 #include <unistd.h>
-#include <string.h>
-#include <assert.h>
 
 #include <memory>
 
@@ -14,17 +14,13 @@ namespace windz {
 
 AtomicInt64 Timer::timer_num_;
 
-TimerManager::TimerManager(ObserverPtr<EventLoop> loop)
-        : loop_(loop)
-{ }
+TimerManager::TimerManager(ObserverPtr<EventLoop> loop) : loop_(loop) {}
 
 TimerId TimerManager::AddTimer(CallBack cb, const Timestamp &when, const Duration &interval) {
     std::shared_ptr<Timer> timer = std::make_shared<Timer>(std::move(cb), when, interval);
     TimerEntry timer_entry(timer);
 
-    loop_->RunInLoop([this, timer_entry] {
-        PushInHeap(timer_entry);
-    });
+    loop_->RunInLoop([this, timer_entry] { PushInHeap(timer_entry); });
 
     return TimerId(timer->when(), timer);
 }
@@ -41,7 +37,7 @@ void TimerManager::Cancel(const TimerId &timerid) {
 
 void TimerManager::HandleExpired() {
     Timestamp now = Timestamp::Now();
-    while(!heap_.empty()) {
+    while (!heap_.empty()) {
         TimerEntry timer = heap_[0];
         if (timer->canceled()) {
             PopInHeap();
@@ -96,8 +92,7 @@ void TimerManager::DownInHeap(size_t index) {
     while (child < heap_.size()) {
         size_t min_child = child;
         if (child < heap_.size() - 1) {
-            min_child = (heap_[child]->when() < heap_[child + 1]->when())
-                    ? child : child + 1;
+            min_child = (heap_[child]->when() < heap_[child + 1]->when()) ? child : child + 1;
         }
         if (heap_[index]->when() <= heap_[min_child]->when()) {
             break;
@@ -109,8 +104,6 @@ void TimerManager::DownInHeap(size_t index) {
     }
 }
 
-void TimerManager::SwapInHeap(size_t l, size_t r) {
-    heap_[l].swap(heap_[r]);
-}
+void TimerManager::SwapInHeap(size_t l, size_t r) { heap_[l].swap(heap_[r]); }
 
 }  // namespace windz

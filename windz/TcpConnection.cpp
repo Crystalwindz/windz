@@ -1,7 +1,7 @@
 #include "TcpConnection.h"
-#include "EventLoop.h"
 #include "Buffer.h"
 #include "Channel.h"
+#include "EventLoop.h"
 #include "Socket.h"
 #include "Timer.h"
 
@@ -11,17 +11,18 @@
 namespace windz {
 
 TcpConnection::TcpConnection(ObserverPtr<EventLoop> loop, const std::string &name,
-                             const Socket &sockfd,
-                             const InetAddr &local,
-                             const InetAddr &peer)
-        : loop_(loop), name_(name), state_(kConnecting),
-          socket_(sockfd),
-          channel_(std::make_shared<Channel>(loop.Get(), sockfd.sockfd())),
-          local_addr_(local), peer_addr_(peer),
-          high_watermark_(64*1024*1024) {
-    channel_->SetReadHandler([this]{ HandleRead(); });
-    channel_->SetWriteHandler([this]{ HandleWrite(); });
-    channel_->SetErrorHandler([this]{ HandleError(); });
+                             const Socket &sockfd, const InetAddr &local, const InetAddr &peer)
+    : loop_(loop),
+      name_(name),
+      state_(kConnecting),
+      socket_(sockfd),
+      channel_(std::make_shared<Channel>(loop.Get(), sockfd.sockfd())),
+      local_addr_(local),
+      peer_addr_(peer),
+      high_watermark_(64 * 1024 * 1024) {
+    channel_->SetReadHandler([this] { HandleRead(); });
+    channel_->SetWriteHandler([this] { HandleWrite(); });
+    channel_->SetErrorHandler([this] { HandleError(); });
     socket_.SetKeepAlive(true);
 }
 
@@ -62,16 +63,13 @@ void TcpConnection::Send(const std::string &message) {
             SendInLoop(message.c_str(), message.length());
         } else {
             auto self = shared_from_this();
-            loop_->RunInLoop([this, message, self]{
-                SendInLoop(message.c_str(), message.length());
-            });
+            loop_->RunInLoop(
+                [this, message, self] { SendInLoop(message.c_str(), message.length()); });
         }
     }
 }
 
-void TcpConnection::Send(const Buffer &message) {
-    Send(message.Peek(), message.ReadableBytes());
-}
+void TcpConnection::Send(const Buffer &message) { Send(message.Peek(), message.ReadableBytes()); }
 
 void TcpConnection::SendInLoop(const void *message, size_t len) {
     loop_->AssertInLoopThread();
@@ -88,7 +86,7 @@ void TcpConnection::SendInLoop(const void *message, size_t len) {
             remain = len - nwrite;
             if (remain == 0 && low_watermark_cb_) {
                 auto self = shared_from_this();
-                loop_->QueueInLoop([this, self]{ low_watermark_cb_(shared_from_this()); });
+                loop_->QueueInLoop([this, self] { low_watermark_cb_(shared_from_this()); });
             }
         } else {
             nwrite = 0;
@@ -104,27 +102,24 @@ void TcpConnection::SendInLoop(const void *message, size_t len) {
     assert(remain <= len);
     if (!err && remain > 0) {
         size_t oldlen = output_buf_.ReadableBytes();
-        if (oldlen <= high_watermark_
-            && oldlen + remain > high_watermark_
-            && high_watermark_cb_) {
+        if (oldlen <= high_watermark_ && oldlen + remain > high_watermark_ && high_watermark_cb_) {
             auto self = shared_from_this();
             loop_->RunInLoop([this, oldlen, remain, self] {
                 high_watermark_cb_(shared_from_this(), oldlen + remain);
             });
         }
-        output_buf_.Write(static_cast<const char *>(message)+nwrite, remain);
+        output_buf_.Write(static_cast<const char *>(message) + nwrite, remain);
         if (!channel_->WriteEnabled()) {
             channel_->EnableWrite();
         }
     }
-
 }
 
 void TcpConnection::Shutdown() {
     if (state_ == kConnected) {
         state_ = kDisconnecting;
         auto self = shared_from_this();
-        loop_->RunInLoop([this, self]{ ShutdownInLoop(); });
+        loop_->RunInLoop([this, self] { ShutdownInLoop(); });
     }
 }
 
@@ -139,17 +134,13 @@ void TcpConnection::ForceClose() {
     if (state_ == kConnected || state_ == kDisconnecting) {
         state_ = kDisconnected;
         auto self = shared_from_this();
-        loop_->QueueInLoop([this, self] {
-            ForceCloseInLoop();
-        });
+        loop_->QueueInLoop([this, self] { ForceCloseInLoop(); });
     }
 }
 
 void TcpConnection::ForceCloseAfter(const Duration &delay) {
     auto self = shared_from_this();
-    loop_->RunAfter(delay, [this, self] {
-        ForceCloseInLoop();
-    });
+    loop_->RunAfter(delay, [this, self] { ForceCloseInLoop(); });
 }
 
 void TcpConnection::ForceCloseInLoop() {
@@ -159,9 +150,7 @@ void TcpConnection::ForceCloseInLoop() {
     }
 }
 
-void TcpConnection::SetTcpNoDelay(bool flag) {
-    socket_.SetTcpNoDelay(flag);
-}
+void TcpConnection::SetTcpNoDelay(bool flag) { socket_.SetTcpNoDelay(flag); }
 
 void TcpConnection::HandleRead() {
     loop_->AssertInLoopThread();
@@ -178,16 +167,14 @@ void TcpConnection::HandleRead() {
 void TcpConnection::HandleWrite() {
     loop_->AssertInLoopThread();
     if (channel_->WriteEnabled()) {
-        ssize_t n = ::write(channel_->fd(),
-                            output_buf_.Peek(),
-                            output_buf_.ReadableBytes());
+        ssize_t n = ::write(channel_->fd(), output_buf_.Peek(), output_buf_.ReadableBytes());
         if (n > 0) {
             output_buf_.Release(n);
             if (output_buf_.ReadableBytes() == 0) {
                 channel_->DisableWrite();
                 if (low_watermark_cb_) {
                     auto self = shared_from_this();
-                    loop_->QueueInLoop([this, self]{ low_watermark_cb_(shared_from_this()); });
+                    loop_->QueueInLoop([this, self] { low_watermark_cb_(shared_from_this()); });
                 }
                 if (state_ == kDisconnecting) {
                     ShutdownInLoop();
@@ -197,7 +184,7 @@ void TcpConnection::HandleWrite() {
             // TODO:LOGSYSERR
         }
     } else {
-        //TODO:LOG
+        // TODO:LOG
     }
 }
 

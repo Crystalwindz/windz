@@ -1,9 +1,9 @@
 #include "CurrentThread.h"
 
-#include <unistd.h>
+#include <stdio.h>
 #include <sys/syscall.h>
 #include <sys/types.h>
-#include <stdio.h>
+#include <unistd.h>
 
 namespace windz {
 
@@ -16,9 +16,7 @@ __thread const char *t_name = "unknown";
 
 namespace {
 
-pid_t GetTid() {
-    return static_cast<pid_t>(::syscall(SYS_gettid));
-}
+pid_t GetTid() { return static_cast<pid_t>(::syscall(SYS_gettid)); }
 
 }  // namespace
 
@@ -29,9 +27,7 @@ void CacheTid() {
     }
 }
 
-bool IsMainThread() {
-    return tid() == ::getpid();
-}
+bool IsMainThread() { return tid() == ::getpid(); }
 
 }  // namespace currentthread
 

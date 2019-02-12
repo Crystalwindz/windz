@@ -1,8 +1,8 @@
 #ifndef WINDZ_ACCEPTOR_H
 #define WINDZ_ACCEPTOR_H
 
-#include "Noncopyable.h"
 #include "Channel.h"
+#include "Noncopyable.h"
 #include "Socket.h"
 
 #include <functional>
@@ -36,4 +36,4 @@ class Acceptor : Noncopyable {
 
 }  // namespace windz
 
-#endif //WINDZ_ACCEPTOR_H
+#endif  // WINDZ_ACCEPTOR_H

@@ -13,8 +13,7 @@ Epoller::Epoller(ObserverPtr<EventLoop> loop) : loop_(loop) {
     assert(epoll_fd_ > 0);
 }
 
-Epoller::~Epoller() {
-    /* empty */
+Epoller::~Epoller() { /* empty */
 }
 
 void Epoller::AddChannel(ChannelOPtr ch) {
@@ -40,9 +39,7 @@ void Epoller::RemoveChannel(ChannelOPtr ch) {
     epoll_ctl(epoll_fd_, EPOLL_CTL_DEL, ch->fd(), nullptr);
 }
 
-bool Epoller::IsInLoopThread() const {
-    return loop_->IsInLoopThread();
-}
+bool Epoller::IsInLoopThread() const { return loop_->IsInLoopThread(); }
 
 void Epoller::LoopOnce(int wait_ms, ChannelVector &channel_vector) {
     int event_nums = ::epoll_wait(epoll_fd_, active_events_, kMaxEvents, wait_ms);

@@ -10,7 +10,7 @@ using namespace windz;
 using namespace std;
 
 int main(int argc, char **argv) {
-    auto task = []{
+    auto task = [] {
         printf("tid: %d get a task\n", currentthread::tid());
         sleep(3);
     };
@@ -20,10 +20,10 @@ int main(int argc, char **argv) {
     threadpool.Start(2);
     for (int i = 0; i < 15; i++) {
         threadpool.AddTask(task);
-        printf("Add task %d\n",i);
+        printf("Add task %d\n", i);
     }
-//    sleep(2);
-//    threadpool.Stop();
-//    threadpool.Start(3);
+    //    sleep(2);
+    //    threadpool.Stop();
+    //    threadpool.Start(3);
     sleep(60);
 }

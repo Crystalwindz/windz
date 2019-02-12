@@ -1,9 +1,9 @@
 #ifndef WINDZ_BLOCKINGQUEUE_H
 #define WINDZ_BLOCKINGQUEUE_H
 
-#include "Noncopyable.h"
-#include "Mutex.h"
 #include "Condition.h"
+#include "Mutex.h"
+#include "Noncopyable.h"
 
 #include <assert.h>
 #include <queue>
@@ -17,13 +17,12 @@ class BlockingQueue : Noncopyable {
   public:
     // maxsize == 0 means no limit
     explicit BlockingQueue(size_t maxsize = 0)
-            : mutex_(), not_empty_(mutex_), not_full_(mutex_),
-              maxsize_(maxsize), wakeup_(false) {}
+        : mutex_(), not_empty_(mutex_), not_full_(mutex_), maxsize_(maxsize), wakeup_(false) {}
 
     void Push(const T &x) {
         LockGuard lock(mutex_);
-        not_full_.Wait([this]{
-            if (wakeup_){
+        not_full_.Wait([this] {
+            if (wakeup_) {
                 return true;
             } else if ((maxsize_ == 0) || (queue_.size() < maxsize_)) {
                 return true;
@@ -40,7 +39,7 @@ class BlockingQueue : Noncopyable {
     }
     void Push(T &&x) {
         LockGuard lock(mutex_);
-        not_full_.Wait([this]{
+        not_full_.Wait([this] {
             if (wakeup_) {
                 return true;
             } else if ((maxsize_ == 0) || (queue_.size() < maxsize_)) {
@@ -58,7 +57,7 @@ class BlockingQueue : Noncopyable {
     }
     T Pop() {
         LockGuard lock(mutex_);
-        not_empty_.Wait([this](){
+        not_empty_.Wait([this]() {
             if (wakeup_) {
                 return true;
             }
@@ -77,9 +76,7 @@ class BlockingQueue : Noncopyable {
         LockGuard lock(mutex_);
         return queue_.size();
     }
-    bool Empty() const {
-        return Size() == 0;
-    }
+    bool Empty() const { return Size() == 0; }
     // Wakeup thread blocking on the Pop() or Push().
     // After invoke Wakeup(), Push() and Pop() are invalid,
     // ensure all threads are wakeup, then invoke Restore().
@@ -108,4 +105,4 @@ class BlockingQueue : Noncopyable {
 
 }  // namespace windz
 
-#endif //WINDZ_BLOCKINGQUEUE_H
+#endif  // WINDZ_BLOCKINGQUEUE_H

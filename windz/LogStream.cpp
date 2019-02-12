@@ -1,9 +1,9 @@
 #include "LogStream.h"
 
 #include <assert.h>
-#include <strings.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <strings.h>
 
 #include <algorithm>
 #include <limits>
@@ -19,21 +19,18 @@ const char digitsHex[] = "0123456789abcdef";
 
 // From muduo
 // Efficient Integer to String Conversions, by Matthew Wilson.
-template<typename T>
-size_t Convert(char buf[], T value)
-{
+template <typename T>
+size_t Convert(char buf[], T value) {
     T i = value;
-    char* p = buf;
+    char *p = buf;
 
-    do
-    {
+    do {
         int lsd = static_cast<int>(i % 10);
         i /= 10;
         *p++ = zero[lsd];
     } while (i != 0);
 
-    if (value < 0)
-    {
+    if (value < 0) {
         *p++ = '-';
     }
     *p = '\0';
@@ -42,13 +39,11 @@ size_t Convert(char buf[], T value)
     return p - buf;
 }
 
-size_t ConvertHex(char buf[], uintptr_t value)
-{
+size_t ConvertHex(char buf[], uintptr_t value) {
     uintptr_t i = value;
-    char* p = buf;
+    char *p = buf;
 
-    do
-    {
+    do {
         int lsd = static_cast<int>(i % 16);
         i /= 16;
         *p++ = digitsHex[lsd];
@@ -62,7 +57,7 @@ size_t ConvertHex(char buf[], uintptr_t value)
 
 }  // namespace
 
-template<typename T>
+template <typename T>
 void LogStream::FormatInteger(T v) {
     if (buffer_.Avail() >= kMaxNumericSize) {
         size_t len = Convert(buffer_.cur(), v);
@@ -141,7 +136,7 @@ LogStream &LogStream::operator<<(char v) {
     return *this;
 }
 
-LogStream &LogStream::operator<<(const char * v) {
+LogStream &LogStream::operator<<(const char *v) {
     if (v) {
         buffer_.Append(v, strlen(v));
     } else {
@@ -150,24 +145,24 @@ LogStream &LogStream::operator<<(const char * v) {
     return *this;
 }
 
-LogStream &LogStream::operator<<(const unsigned char * v) {
+LogStream &LogStream::operator<<(const unsigned char *v) {
     *this << reinterpret_cast<const char *>(v);
     return *this;
 }
 
-LogStream &LogStream::operator<<(const std::string & v) {
+LogStream &LogStream::operator<<(const std::string &v) {
     buffer_.Append(v.c_str(), v.length());
     return *this;
 }
 
-LogStream &LogStream::operator<<(const void * p) {
+LogStream &LogStream::operator<<(const void *p) {
     uintptr_t v = reinterpret_cast<uintptr_t>(p);
     if (buffer_.Avail() >= kMaxNumericSize) {
         char *buf = buffer_.cur();
         buf[0] = '0';
         buf[1] = 'x';
-        size_t len = ConvertHex(buf+2, v);
-        buffer_.Add(len+2);
+        size_t len = ConvertHex(buf + 2, v);
+        buffer_.Add(len + 2);
     }
     return *this;
 }

@@ -1,8 +1,8 @@
 #ifndef WINDZ_CHANNEL_H
 #define WINDZ_CHANNEL_H
 
-#include "Noncopyable.h"
 #include "Memory.h"
+#include "Noncopyable.h"
 
 #include <sys/epoll.h>
 
@@ -32,12 +32,30 @@ class Channel : Noncopyable, public std::enable_shared_from_this<Channel> {
     void SetErrorHandler(const EventCallBack &errorcb) { error_cb_ = errorcb; }
     void SetErrorHandler(EventCallBack &&errorcb) { error_cb_ = std::move(errorcb); }
 
-    void EnableRead() { events_ |= EPOLLIN; Update(); }
-    void DisableRead() { events_ &= ~EPOLLIN; Update(); }
-    void EnableWrite() { events_ |= EPOLLOUT; Update(); }
-    void DisableWrite() { events_ &= ~EPOLLOUT; Update(); }
-    void EnableReadWrite() { events_ |= (EPOLLIN | EPOLLOUT); Update(); }
-    void DisableReadWrite() { events_ &= ~(EPOLLIN | EPOLLOUT); Update(); }
+    void EnableRead() {
+        events_ |= EPOLLIN;
+        Update();
+    }
+    void DisableRead() {
+        events_ &= ~EPOLLIN;
+        Update();
+    }
+    void EnableWrite() {
+        events_ |= EPOLLOUT;
+        Update();
+    }
+    void DisableWrite() {
+        events_ &= ~EPOLLOUT;
+        Update();
+    }
+    void EnableReadWrite() {
+        events_ |= (EPOLLIN | EPOLLOUT);
+        Update();
+    }
+    void DisableReadWrite() {
+        events_ &= ~(EPOLLIN | EPOLLOUT);
+        Update();
+    }
     bool ReadEnabled() const { return events_ & EPOLLIN; }
     bool WriteEnabled() const { return events_ & EPOLLOUT; }
 
@@ -66,4 +84,4 @@ using ChannelOPtr = windz::ObserverPtr<Channel>;
 
 }  // namespace windz
 
-#endif //WINDZ_CHANNEL_H
+#endif  // WINDZ_CHANNEL_H

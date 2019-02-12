@@ -8,13 +8,13 @@
 namespace windz {
 
 TcpClient::TcpClient(ObserverPtr<EventLoop> loop, const InetAddr &addr, const std::string &name)
-: loop_(loop), name_(name),
-  connector_(std::make_shared<Connector>(loop, addr)),
-  retry_(false), start_(false),
-  next_conn_id_(1) {
-    connector_->SetConnectionCallBack([this](const Socket &socket) {
-        NewTcpConnection(socket);
-    });
+    : loop_(loop),
+      name_(name),
+      connector_(std::make_shared<Connector>(loop, addr)),
+      retry_(false),
+      start_(false),
+      next_conn_id_(1) {
+    connector_->SetConnectionCallBack([this](const Socket &socket) { NewTcpConnection(socket); });
 }
 
 TcpClient::~TcpClient() {
@@ -26,11 +26,9 @@ TcpClient::~TcpClient() {
         conn = connection_;
     }
     if (conn) {
-        loop_->RunInLoop([this, conn]{
-            conn->SetCloseCallBack([this](const TcpConnectionPtr &conn){
-                loop_->QueueInLoop([conn]{
-                    conn->DestroyConnection();
-                });
+        loop_->RunInLoop([this, conn] {
+            conn->SetCloseCallBack([this](const TcpConnectionPtr &conn) {
+                loop_->QueueInLoop([conn] { conn->DestroyConnection(); });
             });
         });
         if (unique) {
@@ -65,16 +63,14 @@ void TcpClient::Stop() {
 void TcpClient::NewTcpConnection(const Socket &socket) {
     loop_->AssertInLoopThread();
     InetAddr peer_addr = socket.PeerAddr();
-    std::string conn_name = name_ + ":" + peer_addr.IpPortString()
-                            + "#" + std::to_string(next_conn_id_);
+    std::string conn_name =
+        name_ + ":" + peer_addr.IpPortString() + "#" + std::to_string(next_conn_id_);
     InetAddr local_addr = socket.LocalAddr();
-    TcpConnectionPtr conn = std::make_shared<TcpConnection>(
-            loop_, conn_name, socket, local_addr, peer_addr);
+    TcpConnectionPtr conn =
+        std::make_shared<TcpConnection>(loop_, conn_name, socket, local_addr, peer_addr);
     conn->SetConnectionCallBack(connection_cb_);
     conn->SetMessageCallBack(message_cb_);
-    conn->SetCloseCallBack([this](const TcpConnectionPtr &conn) {
-        RemoveTcpConnection(conn);
-    });
+    conn->SetCloseCallBack([this](const TcpConnectionPtr &conn) { RemoveTcpConnection(conn); });
     {
         LockGuard lock(mutex_);
         connection_ = conn;
@@ -89,7 +85,7 @@ void TcpClient::RemoveTcpConnection(const TcpConnectionPtr &conn) {
         assert(connection_ == conn);
         connection_.reset();
     }
-    loop_->QueueInLoop([conn]{ conn->DestroyConnection(); });
+    loop_->QueueInLoop([conn] { conn->DestroyConnection(); });
     if (retry_ && start_) {
         connector_->Restart();
     }

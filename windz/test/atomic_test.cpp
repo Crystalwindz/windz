@@ -5,12 +5,12 @@
 #include "windz/Atomic.h"
 #include "windz/Thread.h"
 
-#include <iostream>
-#include <vector>
 #include <algorithm>
+#include <iostream>
 #include <memory>
+#include <vector>
 
-#define PRINTLN(s) cout << #s" = " << (s) << endl
+#define PRINTLN(s) cout << #s " = " << (s) << endl
 
 using namespace windz;
 using namespace std;
@@ -28,21 +28,16 @@ int main(int argc, char **argv) {
 
     vector<shared_ptr<Thread>> thread;
     for (int i = 0; i < 8; i++) {
-        thread.push_back(make_shared<Thread>(
-                []{
-                    for (int i = 0; i < 1000000; i++) {
-                        a64++;
-                        b++;
-                    }
-                }));
+        thread.push_back(make_shared<Thread>([] {
+            for (int i = 0; i < 1000000; i++) {
+                a64++;
+                b++;
+            }
+        }));
     }
 
-    for_each(thread.begin(), thread.end(), [](shared_ptr<Thread> &t){
-       t->Start();
-    });
-    for_each(thread.begin(), thread.end(), [](shared_ptr<Thread> &t){
-        t->Join();
-    });
+    for_each(thread.begin(), thread.end(), [](shared_ptr<Thread> &t) { t->Start(); });
+    for_each(thread.begin(), thread.end(), [](shared_ptr<Thread> &t) { t->Join(); });
 
     PRINTLN(a64.Get());
     PRINTLN(b);

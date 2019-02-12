@@ -5,11 +5,11 @@
 #ifndef WINDZ_TCPCLIENT_H
 #define WINDZ_TCPCLIENT_H
 
-#include "Noncopyable.h"
 #include "Atomic.h"
-#include "Mutex.h"
-#include "TcpConnection.h"
 #include "Connector.h"
+#include "Mutex.h"
+#include "Noncopyable.h"
+#include "TcpConnection.h"
 
 namespace windz {
 
@@ -23,12 +23,8 @@ class TcpClient : Noncopyable {
     void Stop();
 
     void EnableRetry() { retry_.SetTrue(); }
-    void SetConnectionCallBack(const ConnectionCallBack &cb) {
-        connection_cb_ = cb;
-    }
-    void SetMessageCallBack(const MessageCallBack &cb) {
-        message_cb_ = cb;
-    }
+    void SetConnectionCallBack(const ConnectionCallBack &cb) { connection_cb_ = cb; }
+    void SetMessageCallBack(const MessageCallBack &cb) { message_cb_ = cb; }
 
     ObserverPtr<EventLoop> loop() const { return loop_; }
     const std::string &name() const { return name_; }
@@ -53,4 +49,4 @@ class TcpClient : Noncopyable {
 
 }  // namespace windz
 
-#endif //WINDZ_TCPCLIENT_H
+#endif  // WINDZ_TCPCLIENT_H

@@ -2,11 +2,11 @@
 // Created by crystalwind on 18-12-31.
 //
 
-#include "windz/EventLoop.h"
 #include "windz/Channel.h"
+#include "windz/EventLoop.h"
 
-#include <sys/timerfd.h>
 #include <string.h>
+#include <sys/timerfd.h>
 
 #include <memory>
 
@@ -25,9 +25,9 @@ int main(int argc, char **argv) {
                 ch->DisableRead();
             });
             ch->EnableRead();
-            
+
             Duration delay(2 * Duration::kSecond);
-            
+
             loop.RunAfter(delay, [ch] {
                 printf("%ld\n", ch.use_count());
                 ch->DisableReadWrite();

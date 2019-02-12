@@ -1,17 +1,17 @@
 #include "Util.h"
 
-#include <signal.h>
 #include <fcntl.h>
-#include <time.h>
+#include <signal.h>
 #include <stdarg.h>
 #include <stdio.h>
-#include <unistd.h>
 #include <sys/time.h>
+#include <time.h>
+#include <unistd.h>
 
 #include <functional>
 #include <map>
-#include <string>
 #include <memory>
+#include <string>
 
 namespace windz {
 
@@ -62,7 +62,6 @@ int util::SetNonBlockAndCloseOnExec(int fd) {
     }
     int flags = fcntl(fd, F_GETFD);
     return fcntl(fd, F_SETFD, flags | FD_CLOEXEC);
-
 }
 
 ssize_t net::Writen(int fd, const void *buf, size_t n) {
@@ -71,7 +70,7 @@ ssize_t net::Writen(int fd, const void *buf, size_t n) {
     ssize_t writesum = 0;
     char *p = (char *)buf;
 
-    while(nleft > 0) {
+    while (nleft > 0) {
         if ((nwritten = write(fd, p, nleft)) <= 0) {
             if (nwritten < 0) {
                 if (errno == EINTR) {
@@ -90,9 +89,7 @@ ssize_t net::Writen(int fd, const void *buf, size_t n) {
     return writesum;
 }
 
-ssize_t net::WriteFd(int fd, std::string &buf) {
-    return Writen(fd, buf.c_str(), buf.size());
-}
+ssize_t net::WriteFd(int fd, std::string &buf) { return Writen(fd, buf.c_str(), buf.size()); }
 
 ssize_t net::Readn(int fd, void *buf, size_t n) {
     size_t nleft = n;
@@ -100,12 +97,12 @@ ssize_t net::Readn(int fd, void *buf, size_t n) {
     ssize_t readsum = 0;
     char *p = (char *)buf;
 
-    while(nleft > 0) {
+    while (nleft > 0) {
         if ((nread = read(fd, p, nleft)) < 0) {
             if (errno == EINTR) {
                 nread = 0;
                 continue;
-            } else if (errno == EWOULDBLOCK){
+            } else if (errno == EWOULDBLOCK) {
                 break;
             } else {
                 return -1;
@@ -124,7 +121,7 @@ ssize_t net::Readn(int fd, void *buf, size_t n) {
 ssize_t net::ReadFd(int fd, std::string &buf) {
     ssize_t nread = 0;
     ssize_t readsum = 0;
-    while(true) {
+    while (true) {
         char buff[4096];
         if ((nread = read(fd, buff, 4096)) < 0) {
             if (errno == EINTR) {

@@ -1,10 +1,10 @@
 #ifndef WINDZ_THREADPOOL_H
 #define WINDZ_THREADPOOL_H
 
-#include "Noncopyable.h"
-#include "Mutex.h"
-#include "Thread.h"
 #include "BlockingQueue.h"
+#include "Mutex.h"
+#include "Noncopyable.h"
+#include "Thread.h"
 
 #include <functional>
 #include <memory>
@@ -35,4 +35,4 @@ class ThreadPool : Noncopyable {
 
 }  // namespace windz
 
-#endif //WINDZ_THREADPOOL_H
+#endif  // WINDZ_THREADPOOL_H

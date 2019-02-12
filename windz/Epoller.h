@@ -1,9 +1,9 @@
 #ifndef WINDZ_EPOLLER_H
 #define WINDZ_EPOLLER_H
 
-#include "Noncopyable.h"
-#include "Memory.h"
 #include "Channel.h"
+#include "Memory.h"
+#include "Noncopyable.h"
 
 #include <sys/epoll.h>
 
@@ -40,4 +40,4 @@ class Epoller : Noncopyable {
 
 }  // namespace windz
 
-#endif //WINDZ_EPOLLER_H
+#endif  // WINDZ_EPOLLER_H

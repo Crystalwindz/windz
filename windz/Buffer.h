@@ -6,8 +6,8 @@
 #include <assert.h>
 #include <string.h>
 
-#include <vector>
 #include <string>
+#include <vector>
 
 namespace windz {
 
@@ -17,25 +17,16 @@ class Buffer {
     static const size_t kInitSize = 1024;
 
     explicit Buffer(size_t init_size = kInitSize)
-    : buffer_(kPrependSize + init_size),
-      read_index_(kPrependSize),
-      write_index_(kPrependSize)
-    { }
+        : buffer_(kPrependSize + init_size),
+          read_index_(kPrependSize),
+          write_index_(kPrependSize) {}
 
     void Swap(Buffer &other);
 
-    size_t ReadableBytes() const {
-        return write_index_ - read_index_;
-    }
-    size_t WritableBytes() const {
-        return buffer_.size() - write_index_;
-    }
-    size_t PrependableBytes() const {
-        return read_index_;
-    }
-    const char *Peek() const {
-        return &buffer_[read_index_];
-    }
+    size_t ReadableBytes() const { return write_index_ - read_index_; }
+    size_t WritableBytes() const { return buffer_.size() - write_index_; }
+    size_t PrependableBytes() const { return read_index_; }
+    const char *Peek() const { return &buffer_[read_index_]; }
 
     void Release(size_t len);
     void ReleaseUntil(const char *c);
@@ -66,4 +57,4 @@ class Buffer {
 
 }  // namespace windz
 
-#endif //WINDZ_BUFFER_H
+#endif  // WINDZ_BUFFER_H

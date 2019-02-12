@@ -1,14 +1,14 @@
 #include "Daemon.h"
 #include "Memory.h"
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <stdlib.h>
 #include <fcntl.h>
-#include <unistd.h>
 #include <libgen.h>
 #include <signal.h>
+#include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include <string>
 
@@ -23,7 +23,7 @@ bool WritePidFile(const char *pidfile) {
         fprintf(stderr, "can't write pidfile: %s\n", pidfile);
         return false;
     }
-    ExitCaller close_fd([fd]{ close(fd); });
+    ExitCaller close_fd([fd] { close(fd); });
     snprintf(pid, sizeof(pid), "%d", getpid());
     ssize_t len = strlen(pid);
     if (write(fd, pid, len) != len) {
@@ -39,7 +39,7 @@ int GetPidFromFile(const char *pidfile) {
     if (fd < 0) {
         return -1;
     }
-    ExitCaller close_fd([fd]{ close(fd); });
+    ExitCaller close_fd([fd] { close(fd); });
     if (read(fd, buf, sizeof(buf)) <= 0) {
         return -1;
     }
@@ -85,13 +85,13 @@ bool daemon::Start(const char *pidfile) {
         return false;
     }
     int fd = open("/dev/null", 0);
-    ExitCaller close_fd([fd]{ close(fd); });
+    ExitCaller close_fd([fd] { close(fd); });
     if (fd >= 0) {
         dup2(fd, 0);
         dup2(fd, 1);
         dup2(fd, 2);
         std::string file(pidfile);
-        static ExitCaller unlink_file([file]{ unlink(file.c_str()); });
+        static ExitCaller unlink_file([file] { unlink(file.c_str()); });
         return true;
     }
     return false;

@@ -6,20 +6,18 @@
 
 namespace windz {
 
-AsyncLogging::AsyncLogging(const std::string &basename,
-                           off_t roll_size,
-                           int flush_interval)
-        : running_(false),
-          basename_(basename),
-          roll_size_(roll_size),
-          flush_interval_(flush_interval),
-          thread_([this]{ ThreadFunc(); }, "Logging") ,
-          latch_(1),
-          mutex_(),
-          cond_(mutex_),
-          current_buffer_(MakeUnique<Buffer>()),
-          next_buffer_(MakeUnique<Buffer>()),
-          buffers_() {
+AsyncLogging::AsyncLogging(const std::string &basename, off_t roll_size, int flush_interval)
+    : running_(false),
+      basename_(basename),
+      roll_size_(roll_size),
+      flush_interval_(flush_interval),
+      thread_([this] { ThreadFunc(); }, "Logging"),
+      latch_(1),
+      mutex_(),
+      cond_(mutex_),
+      current_buffer_(MakeUnique<Buffer>()),
+      next_buffer_(MakeUnique<Buffer>()),
+      buffers_() {
     current_buffer_->Bzero();
     next_buffer_->Bzero();
     buffers_.reserve(16);
@@ -39,7 +37,7 @@ void AsyncLogging::Append(const char *logline, size_t len) {
         buffers_.push_back(std::move(current_buffer_));
         if (next_buffer_) {
             current_buffer_ = std::move(next_buffer_);
-        }  else {
+        } else {
             current_buffer_ = MakeUnique<Buffer>();
         }
         current_buffer_->Append(logline, len);
@@ -89,12 +87,12 @@ void AsyncLogging::ThreadFunc() {
         if (buffers_to_write.size() > 25) {
             char buf[256];
             snprintf(buf, sizeof(buf), "Dropped log message, %zd buffers\n",
-            buffers_to_write.size() - 2);
+                     buffers_to_write.size() - 2);
             fputs(buf, stderr);
             output.Append(buf, strlen(buf));
-            buffers_to_write.erase(buffers_to_write.begin()+2, buffers_to_write.end());
+            buffers_to_write.erase(buffers_to_write.begin() + 2, buffers_to_write.end());
         }
-        for (const auto &buffer: buffers_to_write) {
+        for (const auto &buffer : buffers_to_write) {
             output.Append(buffer->data(), buffer->Length());
         }
         if (buffers_to_write.size() > 2) {

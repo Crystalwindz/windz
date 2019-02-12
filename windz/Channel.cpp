@@ -1,21 +1,22 @@
 #include "Channel.h"
 #include "EventLoop.h"
 
+#include <assert.h>
 #include <sys/epoll.h>
 #include <unistd.h>
-#include <assert.h>
 
 namespace windz {
 
 Channel::Channel(ObserverPtr<EventLoop> loop, int fd)
-        : loop_(loop), fd_(fd), events_(0), revents_(0),
-          event_handling_(false), tied_(false) {
-    /* empty */
-}
+    : loop_(loop),
+      fd_(fd),
+      events_(0),
+      revents_(0),
+      event_handling_(false),
+      tied_(false)
+{}
 
-Channel::~Channel() {
-    assert(!event_handling_);
-}
+Channel::~Channel() { assert(!event_handling_); }
 
 void Channel::HandleEvents() {
     std::shared_ptr<void> guard;
@@ -56,8 +57,6 @@ void Channel::Tie(const std::shared_ptr<void> &p) {
     tied_ = true;
 }
 
-void Channel::Update() {
-    loop_->UpdateChannel(shared_from_this());
-}
+void Channel::Update() { loop_->UpdateChannel(shared_from_this()); }
 
 }  // namespace windz

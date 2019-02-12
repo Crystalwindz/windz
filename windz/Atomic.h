@@ -13,30 +13,14 @@ class Atomic : Noncopyable {
     Atomic() : value_(0) {}
     explicit Atomic(T value) : value_(value) {}
 
-    T Get() const {
-        return __atomic_load_n(&value_, __ATOMIC_SEQ_CST);
-    }
-    T Set(T newvalue) {
-        return __atomic_exchange_n(&value_, newvalue, __ATOMIC_SEQ_CST);
-    }
-    T GetAndAdd(T x) {
-        return __atomic_fetch_add(&value_, x, __ATOMIC_SEQ_CST);
-    }
-    T AddAndGet(T x) {
-        return __atomic_add_fetch(&value_, x, __ATOMIC_SEQ_CST);
-    }
-    T operator++() {
-        return AddAndGet(1);
-    }
-    T operator++(int) {
-        return GetAndAdd(1);
-    }
-    T operator--() {
-        return AddAndGet(-1);
-    }
-    T operator--(int) {
-        return GetAndAdd(-1);
-    }
+    T Get() const { return __atomic_load_n(&value_, __ATOMIC_SEQ_CST); }
+    T Set(T newvalue) { return __atomic_exchange_n(&value_, newvalue, __ATOMIC_SEQ_CST); }
+    T GetAndAdd(T x) { return __atomic_fetch_add(&value_, x, __ATOMIC_SEQ_CST); }
+    T AddAndGet(T x) { return __atomic_add_fetch(&value_, x, __ATOMIC_SEQ_CST); }
+    T operator++() { return AddAndGet(1); }
+    T operator++(int) { return GetAndAdd(1); }
+    T operator--() { return AddAndGet(-1); }
+    T operator--(int) { return GetAndAdd(-1); }
 
   private:
     volatile T value_;
@@ -66,4 +50,4 @@ class AtomicBool : Noncopyable {
 
 }  // namespace windz
 
-#endif //WINDZ_ATOMIC_H
+#endif  // WINDZ_ATOMIC_H

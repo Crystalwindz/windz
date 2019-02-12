@@ -1,11 +1,11 @@
 #include "LogFile.h"
-#include "Noncopyable.h"
-#include "Mutex.h"
-#include "Memory.h"
 #include "FileUtil.h"
+#include "Memory.h"
+#include "Mutex.h"
+#include "Noncopyable.h"
 
-#include <time.h>
 #include <sys/types.h>
+#include <time.h>
 #include <unistd.h>
 
 #include <string>
@@ -37,33 +37,29 @@ std::string MakeLogFileName(const std::string &basename, time_t *now) {
 
 }  // namespace
 
-LogFile::LogFile(const std::string &basename,
-                 off_t roll_size,
-                 bool thread_safe,
-                 int flush_interval,
+LogFile::LogFile(const std::string &basename, off_t roll_size, bool thread_safe, int flush_interval,
                  int check_every_n)
-        : basename_(basename),
-          roll_size_(roll_size),
-          flush_interval_(flush_interval),
-          check_every_n_(check_every_n),
-          count_(0),
-          mutex_(thread_safe ? MakeUnique<Mutex>() : nullptr),
-          start_of_day_(0),
-          last_roll_(0),
-          last_flush_(0) {
+    : basename_(basename),
+      roll_size_(roll_size),
+      flush_interval_(flush_interval),
+      check_every_n_(check_every_n),
+      count_(0),
+      mutex_(thread_safe ? MakeUnique<Mutex>() : nullptr),
+      start_of_day_(0),
+      last_roll_(0),
+      last_flush_(0) {
     RollFile();
 }
 
 LogFile::~LogFile() = default;
 
 void LogFile::Append(const char *logline, size_t len) {
-    if (mutex_){
+    if (mutex_) {
         LockGuard lock(*mutex_);
         AppendUnlocked(logline, len);
     } else {
         AppendUnlocked(logline, len);
     }
-
 }
 
 void LogFile::AppendUnlocked(const char *logline, size_t len) {
@@ -88,7 +84,7 @@ void LogFile::AppendUnlocked(const char *logline, size_t len) {
 }
 
 void LogFile::Flush() {
-    if (mutex_){
+    if (mutex_) {
         LockGuard lock(*mutex_);
         file_->Flush();
     } else {

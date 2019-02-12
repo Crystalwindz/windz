@@ -2,15 +2,15 @@
 // Created by crystalwind on 19-2-9.
 //
 
-#include "windz/TcpClient.h"
-#include "windz/EventLoop.h"
-#include "windz/Thread.h"
 #include "windz/Channel.h"
+#include "windz/EventLoop.h"
+#include "windz/TcpClient.h"
+#include "windz/Thread.h"
 #include "windz/Util.h"
 
-#include <vector>
-#include <memory>
 #include <iostream>
+#include <memory>
+#include <vector>
 
 using namespace windz;
 
@@ -21,9 +21,8 @@ int main(int argc, char **argv) {
     auto channel = std::make_shared<Channel>(&loop, STDIN_FILENO);
 
     client.SetConnectionCallBack([&loop, channel](const TcpConnectionPtr &conn) {
-        std::cout << conn->local_addr().IpPortString()
-                  << " -> "<< conn->peer_addr().IpPortString()
-                  <<  (conn->connected() ? " Connect.\n" : " Disconnect.\n");
+        std::cout << conn->local_addr().IpPortString() << " -> " << conn->peer_addr().IpPortString()
+                  << (conn->connected() ? " Connect.\n" : " Disconnect.\n");
         if (conn->connected()) {
             std::weak_ptr<TcpConnection> weak_conn(conn);
             channel->SetReadHandler([weak_conn, channel] {
@@ -44,7 +43,7 @@ int main(int argc, char **argv) {
             channel->DisableRead();
         }
     });
-    client.SetMessageCallBack([](const TcpConnectionPtr& conn, Buffer &buffer) {
+    client.SetMessageCallBack([](const TcpConnectionPtr &conn, Buffer &buffer) {
         std::string msg(buffer.ReadAll());
         std::cout << msg << std::flush;
     });

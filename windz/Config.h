@@ -1,9 +1,9 @@
 #ifndef WINDZ_CONFIG_H
 #define WINDZ_CONFIG_H
 
-#include <string>
-#include <map>
 #include <list>
+#include <map>
+#include <string>
 
 namespace windz {
 
@@ -42,4 +42,4 @@ class Config {
 
 }  // namespace windz
 
-#endif //WINDZ_CONFIG_H
+#endif  // WINDZ_CONFIG_H

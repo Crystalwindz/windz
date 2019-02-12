@@ -7,14 +7,11 @@
 
 namespace windz {
 
-AppendFile::AppendFile(const std::string &filename)
-        : fp_(fopen(filename.c_str(), "ae")) {
+AppendFile::AppendFile(const std::string &filename) : fp_(fopen(filename.c_str(), "ae")) {
     setbuffer(fp_, buf_, sizeof(buf_));
 }
 
-AppendFile::~AppendFile() {
-    fclose(fp_);
-}
+AppendFile::~AppendFile() { fclose(fp_); }
 
 void AppendFile::Append(const char *logline, size_t len) {
     size_t nwriten = fwrite_unlocked(logline, 1, len, fp_);
@@ -34,8 +31,6 @@ void AppendFile::Append(const char *logline, size_t len) {
     written_bytes_ += len;
 }
 
-void AppendFile::Flush() {
-    fflush(fp_);
-}
+void AppendFile::Flush() { fflush(fp_); }
 
 }  // namespace windz

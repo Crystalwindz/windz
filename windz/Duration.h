@@ -20,7 +20,7 @@ class Duration {
     explicit Duration(int nanosecond) : nanosecond_(nanosecond) {}
     explicit Duration(double second) : nanosecond_((int64_t)(second * kSecond)) {}
     explicit Duration(const struct timeval &t)
-            : nanosecond_(t.tv_sec * kSecond + t.tv_usec * kMicrosecond) {}
+        : nanosecond_(t.tv_sec * kSecond + t.tv_usec * kMicrosecond) {}
 
     int64_t Nanoseconds() const { return nanosecond_; }
     double Microseconds() const { return (double)(nanosecond_) / kMicrosecond; }
@@ -37,9 +37,9 @@ class Duration {
     }
 
     bool IsZero() const { return nanosecond_ == 0; }
-    bool operator< (const Duration &other) const { return nanosecond_ <  other.nanosecond_; }
+    bool operator<(const Duration &other) const { return nanosecond_ < other.nanosecond_; }
     bool operator<=(const Duration &other) const { return nanosecond_ <= other.nanosecond_; }
-    bool operator> (const Duration &other) const { return nanosecond_ >  other.nanosecond_; }
+    bool operator>(const Duration &other) const { return nanosecond_ > other.nanosecond_; }
     bool operator>=(const Duration &other) const { return nanosecond_ >= other.nanosecond_; }
     bool operator==(const Duration &other) const { return nanosecond_ == other.nanosecond_; }
     bool operator!=(const Duration &other) const { return nanosecond_ != other.nanosecond_; }
@@ -67,4 +67,4 @@ class Duration {
 
 }  // namespace windz
 
-#endif //WINDZ_DURATION_H
+#endif  // WINDZ_DURATION_H

@@ -39,12 +39,11 @@ class ObserverPtr {
     T *ptr_;
 };
 
-template<typename T, typename... Ts>
-std::unique_ptr<T> MakeUnique(Ts&&... params)
-{
+template <typename T, typename... Ts>
+std::unique_ptr<T> MakeUnique(Ts &&... params) {
     return std::unique_ptr<T>(new T(std::forward<Ts>(params)...));
 }
 
 }  // namespace windz
 
-#endif //WINDZ_MEMORY_H
+#endif  // WINDZ_MEMORY_H

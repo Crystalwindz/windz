@@ -1,25 +1,25 @@
 #ifndef WINDZ_TCPSERVER_H
 #define WINDZ_TCPSERVER_H
 
-#include "Noncopyable.h"
-#include "Atomic.h"
-#include "TcpConnection.h"
-#include "Socket.h"
-#include "CallBack.h"
 #include "Acceptor.h"
+#include "Atomic.h"
+#include "CallBack.h"
 #include "EventLoop.h"
 #include "EventLoopThreadPool.h"
+#include "Noncopyable.h"
+#include "Socket.h"
+#include "TcpConnection.h"
 
-#include <string>
-#include <memory>
 #include <map>
+#include <memory>
+#include <string>
 
 namespace windz {
 
 class TcpServer : Noncopyable {
   public:
-    TcpServer(ObserverPtr<EventLoop> loop, const InetAddr &addr,
-    const std::string &name, bool reuseport = false);
+    TcpServer(ObserverPtr<EventLoop> loop, const InetAddr &addr, const std::string &name,
+              bool reuseport = false);
     ~TcpServer();
 
     void Start(size_t thread_num = 0);
@@ -28,7 +28,7 @@ class TcpServer : Noncopyable {
     void SetMessageCallBack(const MessageCallBack &cb) { message_cb_ = cb; }
 
     std::string name() { return name_; };
-    std::string ip_port()  { return ip_port_; }
+    std::string ip_port() { return ip_port_; }
 
   private:
     void NewTcpConnection(const Socket &socket, const InetAddr &peer_addr);
@@ -49,4 +49,4 @@ class TcpServer : Noncopyable {
 
 }  // namespace windz
 
-#endif //WINDZ_TCPSERVER_H
+#endif  // WINDZ_TCPSERVER_H

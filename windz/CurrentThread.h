@@ -23,20 +23,14 @@ inline pid_t tid() {
     return t_tid;
 }
 
-inline const char *tid_str() {
-    return t_tid_str;
-}
+inline const char *tid_str() { return t_tid_str; }
 
-inline int tid_str_len() {
-    return t_tid_str_len;
-}
+inline int tid_str_len() { return t_tid_str_len; }
 
-inline const char *name() {
-    return t_name;
-}
+inline const char *name() { return t_name; }
 
 }  // namespace currentthread
 
 }  // namespace windz
 
-#endif //WINDZ_CURRENTTHREAD_H
+#endif  // WINDZ_CURRENTTHREAD_H

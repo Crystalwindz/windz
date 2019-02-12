@@ -12,9 +12,8 @@ bool Stop(const char *pidfile);
 bool Restart(const char *pidfile);
 
 void Process(const char *cmd);
-
 };
 
 }  // namespace windz
 
-#endif //WINDZ_DAEMON_H
+#endif  // WINDZ_DAEMON_H

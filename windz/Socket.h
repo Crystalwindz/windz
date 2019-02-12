@@ -58,4 +58,4 @@ class Socket {
 
 }  // namespace windz
 
-#endif //WINDZ_SOCKET_H
+#endif  // WINDZ_SOCKET_H
