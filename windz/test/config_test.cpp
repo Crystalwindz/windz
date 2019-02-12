@@ -3,8 +3,10 @@
 //
 
 #include "windz/Config.h"
+
 #include <assert.h>
 #include <unistd.h>
+
 #include <iostream>
 #include <string>
 #include <list>
@@ -74,8 +76,7 @@ void ErrorTest() {
 
 }
 
-int main()
-{
+int main(int argc, char **argv) {
     cout << "NormalTest:\n";
     NormalTest();
     cout << "\nErrorTest:\n";

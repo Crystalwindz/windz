@@ -1,17 +1,15 @@
-//
-// Created by crystalwind on 19-2-10.
-//
-
 #ifndef WINDZ_FILEUTIL_H
 #define WINDZ_FILEUTIL_H
 
 #include "Noncopyable.h"
+
 #include <stdio.h>
+
 #include <string>
 
 namespace windz {
 
-class AppendFile : private Noncopyable {
+class AppendFile : Noncopyable {
   public:
     explicit AppendFile(const std::string &filename);
     ~AppendFile();

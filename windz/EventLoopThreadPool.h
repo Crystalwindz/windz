@@ -1,13 +1,9 @@
-//
-// Created by crystalwind on 18-12-31.
-//
-
 #ifndef WINDZ_EVENTLOOPTHREADPOOL_H
 #define WINDZ_EVENTLOOPTHREADPOOL_H
 
 #include "Noncopyable.h"
-#include "Util.h"
 #include "EventLoopThread.h"
+
 #include <functional>
 #include <string>
 #include <vector>
@@ -15,7 +11,7 @@
 
 namespace windz {
 
-class EventLoopThreadPool : private Noncopyable {
+class EventLoopThreadPool : Noncopyable {
   public:
     explicit EventLoopThreadPool();
     ~EventLoopThreadPool();

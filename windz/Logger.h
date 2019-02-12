@@ -1,12 +1,11 @@
-//
-// Created by crystalwind on 19-2-11.
-//
-
 #ifndef WINDZ_LOGGER_H
 #define WINDZ_LOGGER_H
 
 #include "LogStream.h"
+
 #include <errno.h>
+
+#include <functional>
 
 namespace windz {
 
@@ -21,8 +20,8 @@ class Logger {
         FATAL,
         LOG_LEVELS_NUM,
     };
-    using OutputFunc = void (*)(const char *msg, size_t len);
-    using FlushFunc = void (*)();
+    using OutputFunc = std::function<void(const char *msg, size_t len)>;
+    using FlushFunc = std::function<void()>;
 
     Logger(const char *filename, int line, LogLevel level, const char *func, int saved_errno);
     Logger(const char *filename, int line, LogLevel level, const char *func);

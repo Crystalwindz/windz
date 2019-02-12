@@ -1,11 +1,8 @@
-//
-// Created by crystalwind on 19-1-23.
-//
-
 #ifndef WINDZ_TIMESTAMP_H
 #define WINDZ_TIMESTAMP_H
 
 #include "Duration.h"
+
 #include <sys/time.h>
 
 namespace windz {

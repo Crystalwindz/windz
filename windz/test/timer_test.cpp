@@ -5,13 +5,13 @@
 #include "windz/EventLoop.h"
 #include "windz/Util.h"
 #include "windz/Duration.h"
+
 #include <iostream>
 
 using namespace windz;
 using namespace std;
 
-int main()
-{
+int main(int argc, char **argv) {
     EventLoop loop;
     Timestamp now = Timestamp::Now();
     loop.RunAt(now + Duration(10* Duration::kSecond), []{

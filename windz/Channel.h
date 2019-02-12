@@ -1,13 +1,11 @@
-//
-// Created by crystalwind on 18-12-26.
-//
-
 #ifndef WINDZ_CHANNEL_H
 #define WINDZ_CHANNEL_H
 
 #include "Noncopyable.h"
-#include "Util.h"
+#include "Memory.h"
+
 #include <sys/epoll.h>
+
 #include <functional>
 #include <memory>
 
@@ -15,11 +13,11 @@ namespace windz {
 
 class EventLoop;
 
-class Channel : private Noncopyable, public std::enable_shared_from_this<Channel> {
+class Channel : Noncopyable, public std::enable_shared_from_this<Channel> {
   public:
     using EventCallBack = std::function<void()>;
 
-    Channel(EventLoop *loop, int fd);
+    Channel(ObserverPtr<EventLoop> loop, int fd);
     ~Channel();
 
     void HandleEvents();
@@ -27,12 +25,12 @@ class Channel : private Noncopyable, public std::enable_shared_from_this<Channel
 
     void Tie(const std::shared_ptr<void> &p);
 
-    void SetReadHandler(const EventCallBack &readcb) { readcb_ = readcb; }
-    void SetReadHandler(EventCallBack &&readcb) { readcb_ = std::move(readcb); }
-    void SetWriteHandler(const EventCallBack &writecb) { writecb_ = writecb; }
-    void SetWriteHandler(EventCallBack &&writecb) { writecb_ = std::move(writecb); }
-    void SetErrorHandler(const EventCallBack &errorcb) { errorcb_ = errorcb; }
-    void SetErrorHandler(EventCallBack &&errorcb) { errorcb_ = std::move(errorcb); }
+    void SetReadHandler(const EventCallBack &readcb) { read_cb_ = readcb; }
+    void SetReadHandler(EventCallBack &&readcb) { read_cb_ = std::move(readcb); }
+    void SetWriteHandler(const EventCallBack &writecb) { write_cb_ = writecb; }
+    void SetWriteHandler(EventCallBack &&writecb) { write_cb_ = std::move(writecb); }
+    void SetErrorHandler(const EventCallBack &errorcb) { error_cb_ = errorcb; }
+    void SetErrorHandler(EventCallBack &&errorcb) { error_cb_ = std::move(errorcb); }
 
     void EnableRead() { events_ |= EPOLLIN; Update(); }
     void DisableRead() { events_ &= ~EPOLLIN; Update(); }
@@ -57,7 +55,7 @@ class Channel : private Noncopyable, public std::enable_shared_from_this<Channel
     uint32_t revents_;
 
     bool event_handling_;
-    EventCallBack readcb_, writecb_, errorcb_;
+    EventCallBack read_cb_, write_cb_, error_cb_;
 
     bool tied_;
     std::weak_ptr<void> tie_;

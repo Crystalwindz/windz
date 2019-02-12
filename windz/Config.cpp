@@ -1,25 +1,21 @@
-//
-// Created by crystalwind on 19-1-18.
-//
-
 #include "Config.h"
+
 #include <stdlib.h>
 #include <ctype.h>
+
 #include <string>
 #include <map>
 #include <list>
 #include <memory>
 #include <algorithm>
 
-using namespace std;
-
 namespace windz {
 
 namespace {
 
-string MakeKey(const string &section, const string &name) {
-    string key = section + "." + name;
-    transform(key.begin(), key.end(), key.begin(), ::tolower);
+std::string MakeKey(const std::string &section, const std::string &name) {
+    std::string key = section + "." + name;
+    std::transform(key.begin(), key.end(), key.begin(), ::tolower);
     return key;
 }
 
@@ -37,7 +33,7 @@ class LineParser {
         }
         return *this;
     }
-    string Strip(const char *begin, const char *end) {
+    std::string Strip(const char *begin, const char *end) {
         while (begin < end && isspace(*begin)) {
            ++begin;
         }
@@ -45,7 +41,7 @@ class LineParser {
             --end;
         }
 
-        return string(begin, end);
+        return std::string(begin, end);
     }
     char Peek() {
         SkipSpace();
@@ -59,7 +55,7 @@ class LineParser {
         SkipSpace();
         return (*line_ == c);
     }
-    string Till(char c) {
+    std::string Till(char c) {
         SkipSpace();
         const char *end = line_;
         while (*end && *end != c) {
@@ -72,7 +68,7 @@ class LineParser {
         line_ = end;
         return Strip(begin, end);
     }
-    string TillEnd() {
+    std::string TillEnd() {
         SkipSpace();
         const char *end = line_;
         while (*end && !isspace(*end) && *end != '#') {
@@ -82,7 +78,7 @@ class LineParser {
         line_ = end;
         return Strip(begin, end);
     }
-    string TillSpace() {
+    std::string TillSpace() {
         SkipSpace();
         const char *end = line_;
         while (*end && !isspace(*end)) {
@@ -105,12 +101,12 @@ int Config::Parse(const std::string &filename) {
     if (!file) {
         return -1;
     }
-    unique_ptr<FILE, decltype(fclose) *> closefile(file, fclose);
+    std::unique_ptr<FILE, decltype(fclose) *> closefile(file, fclose);
 
     static const int MAXLINE = 1024;
     char line[MAXLINE];
     int line_num = 0;
-    string section, name;
+    std::string section, name;
     LineParser line_parser(line);
     bool error = false;
 
@@ -151,8 +147,8 @@ int Config::Parse(const std::string &filename) {
     return error ? line_num : 0;
 }
 
-string Config::GetString(string section, string name, string default_value) {
-    string key = MakeKey(section, name);
+std::string Config::GetString(std::string section, std::string name, std::string default_value) {
+    std::string key = MakeKey(section, name);
     auto iter = config_.find(key);
     if (iter == config_.end()) {
         return default_value;
@@ -161,25 +157,25 @@ string Config::GetString(string section, string name, string default_value) {
     }
 }
 
-long Config::GetInt(string section, string name, long default_value) {
-    string int_str = GetString(section, name, "");
+long Config::GetInt(std::string section, std::string name, long default_value) {
+    std::string int_str = GetString(section, name, "");
     const char *begin = int_str.c_str();
     char *end;
     long val = strtol(begin, &end, 0);
     return end > begin ? val : default_value;
 }
 
-double Config::GetDouble(string section, std::string name, double default_value) {
-    string double_str = GetString(section, name, "");
+double Config::GetDouble(std::string section, std::string name, double default_value) {
+    std::string double_str = GetString(section, name, "");
     const char *begin = double_str.c_str();
     char *end;
     double val = strtod(begin, &end);
     return end > begin ? val : default_value;
 }
 
-bool Config::GetBool(string section, std::string name, bool default_value) {
-    string bool_str = GetString(section, name, "");
-    transform(bool_str.begin(), bool_str.end(), bool_str.begin(), ::tolower);
+bool Config::GetBool(std::string section, std::string name, bool default_value) {
+    std::string bool_str = GetString(section, name, "");
+    std::transform(bool_str.begin(), bool_str.end(), bool_str.begin(), ::tolower);
     if (bool_str == "true" || bool_str == "yes" || bool_str == "on" || bool_str == "1") {
         return true;
     } else if (bool_str == "false" || bool_str == "no" || bool_str == "off" || bool_str == "0") {
@@ -189,11 +185,11 @@ bool Config::GetBool(string section, std::string name, bool default_value) {
     }
 }
 
-list<std::string> Config::GetList(string section, string name) {
-    string key = MakeKey(section, name);
+std::list<std::string> Config::GetList(std::string section, std::string name) {
+    std::string key = MakeKey(section, name);
     auto iter = config_.find(key);
     if (iter == config_.end()) {
-        return list<string>();
+        return std::list<std::string>();
     } else {
         return iter->second;
     }

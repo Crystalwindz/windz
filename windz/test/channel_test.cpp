@@ -4,15 +4,16 @@
 
 #include "windz/EventLoop.h"
 #include "windz/Channel.h"
+
 #include <sys/timerfd.h>
 #include <string.h>
+
 #include <memory>
 
 using namespace windz;
 using namespace std;
 
-int main()
-{
+int main(int argc, char **argv) {
     {
         EventLoop loop;
         int timefd = ::timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK | TFD_CLOEXEC);

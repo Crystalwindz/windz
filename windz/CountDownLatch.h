@@ -1,7 +1,3 @@
-//
-// Created by crystalwind on 18-12-25.
-//
-
 #ifndef WINDZ_COUNTDOWNLATCH_H
 #define WINDZ_COUNTDOWNLATCH_H
 
@@ -11,7 +7,7 @@
 
 namespace windz {
 
-class CountDownLatch : private Noncopyable {
+class CountDownLatch : Noncopyable {
   public:
     explicit CountDownLatch(int count) : mutex_(), cond_(mutex_), count_(count) {}
     void Wait() {

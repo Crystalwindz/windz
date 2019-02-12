@@ -4,6 +4,7 @@
 
 #include "windz/Atomic.h"
 #include "windz/Thread.h"
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -17,8 +18,7 @@ using namespace std;
 AtomicInt64 a64(4);
 int64_t b = 0;
 
-int main()
-{
+int main(int argc, char **argv) {
     PRINTLN(a64.Get());
     PRINTLN(a64.Set(1));
     PRINTLN(a64.Get());

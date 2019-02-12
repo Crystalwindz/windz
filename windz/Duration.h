@@ -1,7 +1,3 @@
-//
-// Created by crystalwind on 19-1-23.
-//
-
 #ifndef WINDZ_DURATION_H
 #define WINDZ_DURATION_H
 

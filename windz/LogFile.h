@@ -1,20 +1,18 @@
-//
-// Created by crystalwind on 19-2-10.
-//
-
 #ifndef WINDZ_LOGFILE_H
 #define WINDZ_LOGFILE_H
 
 #include "Noncopyable.h"
 #include "Mutex.h"
 #include "FileUtil.h"
+
 #include <time.h>
+
 #include <string>
 #include <memory>
 
 namespace windz {
 
-class LogFile : private Noncopyable {
+class LogFile : Noncopyable {
   public:
     LogFile(const std::string &basename,
             off_t roll_size,

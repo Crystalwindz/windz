@@ -1,13 +1,11 @@
-//
-// Created by crystalwind on 19-1-20.
-//
-
 #ifndef WINDZ_BUFFER_H
 #define WINDZ_BUFFER_H
 
 #include "Socket.h"
+
 #include <assert.h>
 #include <string.h>
+
 #include <vector>
 #include <string>
 

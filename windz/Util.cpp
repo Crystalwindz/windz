@@ -1,8 +1,5 @@
-//
-// Created by crystalwind on 18-12-25.
-//
-
 #include "Util.h"
+
 #include <signal.h>
 #include <fcntl.h>
 #include <time.h>
@@ -10,18 +7,17 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/time.h>
+
 #include <functional>
 #include <map>
 #include <string>
 #include <memory>
 
-using namespace std;
-
 namespace windz {
 
-string util::Format(const char *fmt, ...) {
+std::string util::Format(const char *fmt, ...) {
     char buf[500];
-    unique_ptr<char[]> release;
+    std::unique_ptr<char[]> release;
     char *base;
     for (int i = 0; i < 2; i++) {
         int bufsize;
@@ -51,7 +47,7 @@ string util::Format(const char *fmt, ...) {
         }
         break;
     }
-    return string(base);
+    return std::string(base);
 }
 
 int util::AddFdFlag(int fd, int flag) {

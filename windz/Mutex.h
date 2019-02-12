@@ -1,17 +1,14 @@
-//
-// Created by crystalwind on 18-12-25.
-//
-
 #ifndef WINDZ_MUTEX_H
 #define WINDZ_MUTEX_H
 
 #include "Noncopyable.h"
+
 #include <pthread.h>
 #include <time.h>
 
 namespace windz {
 
-class Mutex : private Noncopyable {
+class Mutex : Noncopyable {
     friend class Condition;
 
   public:
@@ -47,7 +44,7 @@ class Mutex : private Noncopyable {
     }
 };
 
-class LockGuard : private Noncopyable {
+class LockGuard : Noncopyable {
   public:
     explicit LockGuard(Mutex &mutex) : mutex_(mutex) {
         mutex_.Lock();

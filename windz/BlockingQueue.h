@@ -1,21 +1,19 @@
-//
-// Created by crystalwind on 18-12-29.
-//
-
 #ifndef WINDZ_BLOCKINGQUEUE_H
 #define WINDZ_BLOCKINGQUEUE_H
 
 #include "Noncopyable.h"
 #include "Mutex.h"
 #include "Condition.h"
+
 #include <assert.h>
 #include <queue>
+
 #include <utility>
 
 namespace windz {
 
 template <typename T>
-class BlockingQueue : private Noncopyable {
+class BlockingQueue : Noncopyable {
   public:
     // maxsize == 0 means no limit
     explicit BlockingQueue(size_t maxsize = 0)

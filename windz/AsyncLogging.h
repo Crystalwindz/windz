@@ -1,7 +1,3 @@
-//
-// Created by crystalwind on 19-2-10.
-//
-
 #ifndef WINDZ_ASYNCLOGGING_H
 #define WINDZ_ASYNCLOGGING_H
 
@@ -12,13 +8,14 @@
 #include "Condition.h"
 #include "Mutex.h"
 #include "Atomic.h"
+
 #include <vector>
 #include <string>
 #include <memory>
 
 namespace windz {
 
-class AsyncLogging : private Noncopyable {
+class AsyncLogging : Noncopyable {
   public:
     AsyncLogging(const std::string &basename,
     off_t roll_size, int flush_interval = 3);

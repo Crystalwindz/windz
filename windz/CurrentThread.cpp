@@ -1,8 +1,5 @@
-//
-// Created by crystalwind on 18-12-29.
-//
-
 #include "CurrentThread.h"
+
 #include <unistd.h>
 #include <sys/syscall.h>
 #include <sys/types.h>

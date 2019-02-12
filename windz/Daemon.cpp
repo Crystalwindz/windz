@@ -1,9 +1,6 @@
-//
-// Created by crystalwind on 19-1-18.
-//
-
 #include "Daemon.h"
-#include "Util.h"
+#include "Memory.h"
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdlib.h>
@@ -12,6 +9,7 @@
 #include <libgen.h>
 #include <signal.h>
 #include <string.h>
+
 #include <string>
 
 namespace windz {

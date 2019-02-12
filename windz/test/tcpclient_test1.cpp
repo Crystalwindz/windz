@@ -7,6 +7,7 @@
 #include "windz/Thread.h"
 #include "windz/Channel.h"
 #include "windz/Util.h"
+
 #include <vector>
 #include <memory>
 #include <iostream>

@@ -1,15 +1,13 @@
-//
-// Created by crystalwind on 19-2-10.
-//
-
 #include "LogFile.h"
 #include "Noncopyable.h"
 #include "Mutex.h"
-#include "Util.h"
+#include "Memory.h"
 #include "FileUtil.h"
+
 #include <time.h>
 #include <sys/types.h>
 #include <unistd.h>
+
 #include <string>
 
 namespace windz {

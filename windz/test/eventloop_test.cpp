@@ -4,12 +4,13 @@
 
 #include "windz/EventLoop.h"
 #include "windz/Thread.h"
+
 #include <assert.h>
 
 using namespace windz;
 using namespace std;
 
-int main() {
+int main(int argc, char **argv) {
     EventLoop loop;
     // EventLoop loop2; // abort
     printf("main(): pid = %d, tid = %d\n",

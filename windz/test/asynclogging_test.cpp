@@ -5,6 +5,7 @@
 #include "windz/AsyncLogging.h"
 #include "windz/Logger.h"
 #include "windz/Thread.h"
+
 #include <memory>
 #include <algorithm>
 #include <vector>

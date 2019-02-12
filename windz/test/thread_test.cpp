@@ -3,15 +3,16 @@
 //
 
 #include "windz/Thread.h"
+
 #include <unistd.h>
+
 #include <functional>
 #include <iostream>
 
 using namespace std;
 using namespace windz;
 
-int main()
-{
+int main(int argc, char **argv) {
     int a=4;
     Thread t1([&a](){
         cout << currentthread::tid() << " "

@@ -1,7 +1,3 @@
-//
-// Created by crystalwind on 19-1-31.
-//
-
 #ifndef WINDZ_TCPSERVER_H
 #define WINDZ_TCPSERVER_H
 
@@ -10,19 +6,19 @@
 #include "TcpConnection.h"
 #include "Socket.h"
 #include "CallBack.h"
+#include "Acceptor.h"
+#include "EventLoop.h"
+#include "EventLoopThreadPool.h"
+
 #include <string>
 #include <memory>
 #include <map>
 
 namespace windz {
 
-class Acceptor;
-class EventLoop;
-class EventLoopThreadPool;
-
-class TcpServer : private Noncopyable {
+class TcpServer : Noncopyable {
   public:
-    TcpServer(EventLoop *loop, const InetAddr &addr,
+    TcpServer(ObserverPtr<EventLoop> loop, const InetAddr &addr,
     const std::string &name, bool reuseport = false);
     ~TcpServer();
 

@@ -1,12 +1,10 @@
-//
-// Created by crystalwind on 19-2-10.
-//
-
 #include "LogStream.h"
+
 #include <assert.h>
 #include <strings.h>
 #include <stdint.h>
 #include <stdio.h>
+
 #include <algorithm>
 #include <limits>
 

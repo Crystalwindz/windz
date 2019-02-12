@@ -1,16 +1,13 @@
-//
-// Created by crystalwind on 19-2-7.
-//
-
 #include "TcpClient.h"
 #include "Connector.h"
 #include "EventLoop.h"
+
 #include <memory>
 #include <string>
 
 namespace windz {
 
-TcpClient::TcpClient(EventLoop *loop, const InetAddr &addr, const std::string &name)
+TcpClient::TcpClient(ObserverPtr<EventLoop> loop, const InetAddr &addr, const std::string &name)
 : loop_(loop), name_(name),
   connector_(std::make_shared<Connector>(loop, addr)),
   retry_(false), start_(false),

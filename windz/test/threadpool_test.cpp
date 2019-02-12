@@ -3,13 +3,13 @@
 //
 
 #include "windz/ThreadPool.h"
+
 #include <iostream>
 
 using namespace windz;
 using namespace std;
 
-int main()
-{
+int main(int argc, char **argv) {
     auto task = []{
         printf("tid: %d get a task\n", currentthread::tid());
         sleep(3);

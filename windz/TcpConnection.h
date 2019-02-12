@@ -1,26 +1,22 @@
-//
-// Created by crystalwind on 19-1-31.
-//
-
 #ifndef WINDZ_TCPCONNECTION_H
 #define WINDZ_TCPCONNECTION_H
 
 #include "Noncopyable.h"
-#include "Util.h"
+#include "Memory.h"
 #include "Socket.h"
 #include "Buffer.h"
 #include "CallBack.h"
 #include "Duration.h"
+#include "EventLoop.h"
+#include "Channel.h"
+
 #include <string>
 #include <memory>
 #include <functional>
 
 namespace windz {
 
-class Channel;
-class EventLoop;
-
-class TcpConnection : private Noncopyable,
+class TcpConnection : Noncopyable,
                       public std::enable_shared_from_this<TcpConnection> {
   public:
     TcpConnection(ObserverPtr<EventLoop> loop, const std::string &name,

@@ -1,7 +1,3 @@
-//
-// Created by crystalwind on 18-12-25.
-//
-
 #ifndef WINDZ_THREAD_H
 #define WINDZ_THREAD_H
 
@@ -9,13 +5,15 @@
 #include "Atomic.h"
 #include "CountDownLatch.h"
 #include "CurrentThread.h"
+
 #include <pthread.h>
+
 #include <functional>
 #include <string>
 
 namespace windz {
 
-class Thread : private Noncopyable {
+class Thread : Noncopyable {
   public:
     using ThreadFunc = std::function<void()>;
 

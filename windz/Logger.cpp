@@ -1,9 +1,6 @@
-//
-// Created by crystalwind on 19-2-11.
-//
-
 #include "Logger.h"
 #include "CurrentThread.h"
+
 #include <sys/time.h>
 #include <string.h>
 #include <assert.h>

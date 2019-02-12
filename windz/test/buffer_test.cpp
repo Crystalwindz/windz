@@ -3,6 +3,7 @@
 //
 
 #include "windz/Buffer.h"
+
 #include <string>
 
 #define TEST(a, b) assert((a) == (b))
@@ -134,8 +135,7 @@ void test5() {
     TEST(buf.PrependableBytes(), Buffer::kPrependSize);
 }
 
-int main()
-{
+int main(int argc, char **argv) {
     test1();
     test2();
     test3();

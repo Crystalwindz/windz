@@ -1,19 +1,17 @@
-//
-// Created by crystalwind on 18-12-25.
-//
-
 #ifndef WINDZ_CONDITION_H
 #define WINDZ_CONDITION_H
 
 #include "Noncopyable.h"
 #include "Mutex.h"
+
 #include <pthread.h>
 #include <time.h>
+
 #include <functional>
 
 namespace windz {
 
-class Condition : private Noncopyable {
+class Condition : Noncopyable {
   public:
     explicit Condition(Mutex &mutex) : mutex_(mutex) {
         pthread_cond_init(&cond_, nullptr);

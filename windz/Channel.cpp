@@ -1,16 +1,13 @@
-//
-// Created by crystalwind on 18-12-26.
-//
-
 #include "Channel.h"
 #include "EventLoop.h"
+
 #include <sys/epoll.h>
 #include <unistd.h>
 #include <assert.h>
 
 namespace windz {
 
-Channel::Channel(EventLoop *loop, int fd)
+Channel::Channel(ObserverPtr<EventLoop> loop, int fd)
         : loop_(loop), fd_(fd), events_(0), revents_(0),
           event_handling_(false), tied_(false) {
     /* empty */
@@ -31,18 +28,18 @@ void Channel::HandleEvents() {
 
     event_handling_ = true;
     if (revents_ & EPOLLERR) {
-        if (errorcb_) {
-            errorcb_();
+        if (error_cb_) {
+            error_cb_();
         }
     }
     if (revents_ & (EPOLLIN | EPOLLPRI | EPOLLRDHUP)) {
-        if (readcb_) {
-            readcb_();
+        if (read_cb_) {
+            read_cb_();
         }
     }
     if (revents_ & EPOLLOUT) {
-        if (writecb_) {
-            writecb_();
+        if (write_cb_) {
+            write_cb_();
         }
     }
     event_handling_ = false;
@@ -50,7 +47,7 @@ void Channel::HandleEvents() {
 
 void Channel::Close() {
     assert(events_ == 0);
-    readcb_ = writecb_ = errorcb_ = nullptr;
+    read_cb_ = write_cb_ = error_cb_ = nullptr;
     loop_->RemoveChannel(shared_from_this());
 }
 

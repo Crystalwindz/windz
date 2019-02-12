@@ -1,16 +1,12 @@
-//
-// Created by crystalwind on 18-12-25.
-//
-
 #include "Thread.h"
 #include "CurrentThread.h"
+
 #include <assert.h>
 #include <pthread.h>
 #include <sys/prctl.h>
+
 #include <string>
 #include <utility>
-
-using namespace std;
 
 namespace windz {
 
@@ -20,7 +16,7 @@ class ThreadData {
   public:
     using ThreadFunc = windz::Thread::ThreadFunc;
 
-    ThreadData(ThreadFunc func, string name, pid_t *tid, CountDownLatch *latch)
+    ThreadData(ThreadFunc func, std::string name, pid_t *tid, CountDownLatch *latch)
             : func_(std::move(func)), name_(std::move(name)), tid_(tid), latch_(latch)
     {}
 
@@ -37,7 +33,7 @@ class ThreadData {
 
   private:
     ThreadFunc func_;
-    string name_;
+    std::string name_;
     pid_t *tid_;
     CountDownLatch *latch_;
 };
@@ -53,11 +49,11 @@ void *StartThread(void *arg) {
 
 AtomicInt32 Thread::thread_num_;
 
-Thread::Thread(const ThreadFunc &func, const string &name)
+Thread::Thread(const ThreadFunc &func, const std::string &name)
     : started_(false), joined_(false), pthread_id_(0), tid_(0),
       func_(func), name_(name), latch_(1) {}
 
-Thread::Thread(ThreadFunc &&func, const string &name)
+Thread::Thread(ThreadFunc &&func, const std::string &name)
         : started_(false), joined_(false), pthread_id_(0), tid_(0),
           func_(std::move(func)), name_(name), latch_(1) {}
 

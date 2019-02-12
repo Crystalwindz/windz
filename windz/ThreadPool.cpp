@@ -1,8 +1,6 @@
-//
-// Created by crystalwind on 19-1-15.
-//
-
 #include "ThreadPool.h"
+#include "Memory.h"
+
 #include <assert.h>
 
 namespace windz {
@@ -22,7 +20,7 @@ void ThreadPool::Start(size_t thread_num) {
     running_ = true;
     threads_.reserve(thread_num);
     for (size_t i = 0; i < thread_num; ++i) {
-        threads_.emplace_back(new Thread(
+        threads_.emplace_back(MakeUnique<Thread>(
                 [this]{
                     while (running_) {
                         Task task = queue_.Pop();

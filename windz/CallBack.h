@@ -1,11 +1,8 @@
-//
-// Created by crystalwind on 19-1-31.
-//
-
 #ifndef WINDZ_CALLBACK_H
 #define WINDZ_CALLBACK_H
 
 #include "Timestamp.h"
+
 #include <memory>
 #include <functional>
 

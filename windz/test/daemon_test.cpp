@@ -4,6 +4,7 @@
 
 #include "windz/Daemon.h"
 #include "windz/Util.h"
+
 #include <libgen.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -11,8 +12,7 @@
 
 using namespace windz;
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     if (argc != 2) {
         printf("Usage: %s [ start | stop | restart ]\n", basename(argv[0]));
         exit(1);

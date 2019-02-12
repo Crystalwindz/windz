@@ -1,12 +1,10 @@
-//
-// Created by crystalwind on 19-1-31.
-//
-
 #include "Connector.h"
 #include "EventLoop.h"
 #include "Channel.h"
 #include "Socket.h"
 #include "Duration.h"
+#include "Timer.h"
+
 #include <assert.h>
 
 namespace windz {
@@ -14,7 +12,7 @@ namespace windz {
 const Duration Connector::kMaxRetryDuration(30.0);
 const Duration Connector::kInitRetryDuration(0.1);
 
-Connector::Connector(EventLoop *loop, const InetAddr &addr)
+Connector::Connector(ObserverPtr<EventLoop> loop, const InetAddr &addr)
 : loop_(loop), addr_(addr), start_(false),
   state_(kDisconnected), retry_duration_(kInitRetryDuration) {
     /*empty*/
@@ -136,7 +134,7 @@ void Connector::HandleWrite() {
     } else {
         state_ = kConnected;
         if (start_) {
-            conncb_(socket);
+            conn_cb_(socket);
         } else {
             socket.Close();
         }

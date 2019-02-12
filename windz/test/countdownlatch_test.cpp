@@ -4,6 +4,7 @@
 
 #include "windz/CountDownLatch.h"
 #include "windz/Thread.h"
+
 #include <iostream>
 #include <vector>
 #include <memory>
@@ -14,8 +15,7 @@ using namespace std;
 
 CountDownLatch latch(5);
 
-int main()
-{
+int main(int argc, char **argv) {
     vector<shared_ptr<Thread>> thread;
 
     for (int i = 0; i < 5; ++i) {

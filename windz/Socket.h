@@ -1,13 +1,11 @@
-//
-// Created by crystalwind on 19-1-21.
-//
-
 #ifndef WINDZ_SOCKET_H
 #define WINDZ_SOCKET_H
 
 #include "Noncopyable.h"
+
 #include <netinet/in.h>
 #include <unistd.h>
+
 #include <string>
 
 namespace windz {

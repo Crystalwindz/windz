@@ -1,20 +1,18 @@
-//
-// Created by crystalwind on 19-1-30.
-//
-
 #include "Acceptor.h"
 #include "Socket.h"
 #include "Channel.h"
 #include "EventLoop.h"
+
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+
 #include <memory>
 
 namespace windz {
 
-Acceptor::Acceptor(EventLoop *loop, const InetAddr &addr, bool reuseport)
+Acceptor::Acceptor(ObserverPtr<EventLoop> loop, const InetAddr &addr, bool reuseport)
         : loop_(loop), socket_(Socket::CreateNonblockSocket()),
           channel_(std::make_shared<Channel>(loop, socket_.sockfd())),
           listenning_(false),
@@ -47,8 +45,8 @@ void Acceptor::HandleRead() {
     InetAddr peer_addr;
     Socket socket = socket_.Accept(&peer_addr);
     if (socket.Valid()) {
-        if (conncb_) {
-            conncb_(socket, peer_addr);
+        if (conn_cb_) {
+            conn_cb_(socket, peer_addr);
         } else {
             socket.Close();
         }

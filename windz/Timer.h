@@ -1,15 +1,13 @@
-//
-// Created by crystalwind on 18-12-31.
-//
-
 #ifndef WINDZ_TIMERQUEUE_H
 #define WINDZ_TIMERQUEUE_H
 
 #include "Atomic.h"
 #include "Noncopyable.h"
-#include "Util.h"
+#include "Memory.h"
 #include "Timestamp.h"
+
 #include <assert.h>
+
 #include <functional>
 #include <vector>
 #include <memory>
@@ -17,7 +15,6 @@
 namespace windz {
 
 class EventLoop;
-
 class Timer;
 
 class TimerId {
@@ -33,7 +30,7 @@ class TimerId {
     std::weak_ptr<Timer> timer_;
 };
 
-class Timer : private Noncopyable {
+class Timer : Noncopyable {
   public:
     using CallBack = std::function<void()>;
 
@@ -74,13 +71,13 @@ class Timer : private Noncopyable {
     bool canceled_;
 };
 
-class TimerManager : private Noncopyable {
+class TimerManager : Noncopyable {
   public:
     using CallBack = std::function<void()>;
     using TimerEntry = std::shared_ptr<Timer>;
     using TimerHeap = std::vector<TimerEntry>;
 
-    explicit TimerManager(EventLoop *loop);
+    explicit TimerManager(ObserverPtr<EventLoop> loop);
 
     TimerId AddTimer(CallBack cb, const Timestamp &when, const Duration &interval);
     void Cancel(const TimerId &timerid);

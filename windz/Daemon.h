@@ -1,7 +1,3 @@
-//
-// Created by crystalwind on 19-1-18.
-//
-
 #ifndef WINDZ_DAEMON_H
 #define WINDZ_DAEMON_H
 

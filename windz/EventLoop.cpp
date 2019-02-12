@@ -1,14 +1,12 @@
-//
-// Created by crystalwind on 18-12-30.
-//
-
 #include "EventLoop.h"
 #include "Channel.h"
 #include "Epoller.h"
 #include "Timer.h"
 #include "Mutex.h"
+
 #include <assert.h>
 #include <sys/eventfd.h>
+
 #include <set>
 #include <algorithm>
 
@@ -20,8 +18,8 @@ EventLoop::EventLoop() : looping_(false), quit_(false),
                          event_handling_(false),
                          pending_functors_calling_(false),
                          tid_(currentthread::tid()),
-                         epoller_(new Epoller(this)),
-                         timer_manager_(new TimerManager(this)) {
+                         epoller_(MakeUnique<Epoller>(this)),
+                         timer_manager_(MakeUnique<TimerManager>(this)) {
     if (t_eventloop_ptr) {
         abort();//TODO: LOGFATAL
     } else {
@@ -137,7 +135,7 @@ bool EventLoop::HasChannel(const ChannelSPtr &ch) {
     return iter != channels_.end();
 }
 
-EventLoop *EventLoop::GetThisThreadEventLoopPtr() {
+ObserverPtr<EventLoop> EventLoop::GetThisThreadEventLoopPtr() {
     return t_eventloop_ptr;
 }
 

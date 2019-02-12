@@ -1,7 +1,3 @@
-//
-// Created by crystalwind on 19-1-31.
-//
-
 #ifndef WINDZ_CONNECTOR_H
 #define WINDZ_CONNECTOR_H
 
@@ -10,6 +6,7 @@
 #include "Channel.h"
 #include "Duration.h"
 #include "Atomic.h"
+
 #include <memory>
 #include <functional>
 
@@ -17,12 +14,12 @@ namespace windz {
 
 class EventLoop;
 
-class Connector : private Noncopyable,
+class Connector : Noncopyable,
                   public std::enable_shared_from_this<Connector> {
   public:
     using ConnectionCallBack = std::function<void (const Socket &)>;
 
-    Connector(EventLoop *loop, const InetAddr &addr);
+    Connector(ObserverPtr<EventLoop> loop, const InetAddr &addr);
     ~Connector();
 
     void Start();
@@ -30,7 +27,7 @@ class Connector : private Noncopyable,
     void Restart();
 
     const InetAddr &addr() { return addr_; }
-    void SetConnectionCallBack(const ConnectionCallBack &cb) { conncb_ = cb; }
+    void SetConnectionCallBack(const ConnectionCallBack &cb) { conn_cb_ = cb; }
 
   private:
     enum State { kDisconnected, kConnecting, kConnected };
@@ -49,7 +46,7 @@ class Connector : private Noncopyable,
     AtomicBool start_;
     State state_;
     ChannelSPtr channel_;
-    ConnectionCallBack conncb_;
+    ConnectionCallBack conn_cb_;
     Duration retry_duration_;
 };
 

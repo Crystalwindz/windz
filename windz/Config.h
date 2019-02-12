@@ -1,7 +1,3 @@
-//
-// Created by crystalwind on 19-1-18.
-//
-
 #ifndef WINDZ_CONFIG_H
 #define WINDZ_CONFIG_H
 

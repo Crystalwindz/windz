@@ -1,17 +1,14 @@
-//
-// Created by crystalwind on 18-12-29.
-//
-
 #ifndef WINDZ_ATOMIC_H
 #define WINDZ_ATOMIC_H
 
 #include "Noncopyable.h"
+
 #include <stdint.h>
 
 namespace windz {
 
 template <typename T>
-class Atomic : private Noncopyable {
+class Atomic : Noncopyable {
   public:
     Atomic() : value_(0) {}
     explicit Atomic(T value) : value_(value) {}
@@ -48,7 +45,7 @@ class Atomic : private Noncopyable {
 using AtomicInt32 = Atomic<int32_t>;
 using AtomicInt64 = Atomic<int64_t>;
 
-class AtomicBool : private Noncopyable {
+class AtomicBool : Noncopyable {
   public:
     explicit AtomicBool(bool value) {
         if (value) {

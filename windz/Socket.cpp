@@ -1,9 +1,6 @@
-//
-// Created by crystalwind on 19-1-21.
-//
-
 #include "Socket.h"
 #include "Noncopyable.h"
+
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <sys/types.h>
@@ -11,6 +8,7 @@
 #include <netinet/tcp.h>
 #include <string.h>
 #include <assert.h>
+
 #include <string>
 
 namespace windz {

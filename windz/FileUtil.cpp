@@ -1,10 +1,8 @@
-//
-// Created by crystalwind on 19-2-10.
-//
-
 #include "FileUtil.h"
+
 #include <assert.h>
 #include <stdio.h>
+
 #include <string>
 
 namespace windz {

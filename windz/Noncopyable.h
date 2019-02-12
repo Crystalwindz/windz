@@ -1,7 +1,3 @@
-//
-// Created by crystalwind on 19-2-9.
-//
-
 #ifndef WINDZ_NONCOPYABLE_H
 #define WINDZ_NONCOPYABLE_H
 

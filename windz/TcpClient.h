@@ -9,14 +9,13 @@
 #include "Atomic.h"
 #include "Mutex.h"
 #include "TcpConnection.h"
+#include "Connector.h"
 
 namespace windz {
 
-class Connector;
-
-class TcpClient : private Noncopyable {
+class TcpClient : Noncopyable {
   public:
-    TcpClient(EventLoop *loop, const InetAddr &addr, const std::string &name);
+    TcpClient(ObserverPtr<EventLoop> loop, const InetAddr &addr, const std::string &name);
     ~TcpClient();
 
     void Connect();

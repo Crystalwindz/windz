@@ -1,7 +1,3 @@
-//
-// Created by crystalwind on 18-12-29.
-//
-
 #ifndef WINDZ_CURRENTTHREAD_H
 #define WINDZ_CURRENTTHREAD_H
 

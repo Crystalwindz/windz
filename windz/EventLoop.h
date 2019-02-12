@@ -1,18 +1,18 @@
-//
-// Created by crystalwind on 18-12-30.
-//
-
 #ifndef WINDZ_EVENTLOOP_H
 #define WINDZ_EVENTLOOP_H
 
 #include "Noncopyable.h"
-#include "Util.h"
+#include "Memory.h"
 #include "Thread.h"
 #include "Mutex.h"
-#include "Timer.h"
 #include "BlockingQueue.h"
 #include "Timestamp.h"
+#include "Channel.h"
+#include "Epoller.h"
+#include "Timer.h"
+
 #include <unistd.h>
+
 #include <memory>
 #include <functional>
 #include <set>
@@ -20,10 +20,7 @@
 
 namespace windz {
 
-class Epoller;
-class Channel;
-
-class EventLoop : private Noncopyable {
+class EventLoop : Noncopyable {
   public:
     using Functor = std::function<void()>;
     using ChannelSPtr = std::shared_ptr<Channel>;
@@ -58,7 +55,7 @@ class EventLoop : private Noncopyable {
         assert(IsInLoopThread());
     }
 
-    static EventLoop *GetThisThreadEventLoopPtr();
+    static ObserverPtr<EventLoop> GetThisThreadEventLoopPtr();
 
   private:
     void HandleRead();

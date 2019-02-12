@@ -1,22 +1,20 @@
-//
-// Created by crystalwind on 18-12-31.
-//
-
 #include "Atomic.h"
 #include "Timer.h"
 #include "EventLoop.h"
 #include "Timestamp.h"
+
 #include <sys/timerfd.h>
 #include <unistd.h>
 #include <string.h>
 #include <assert.h>
+
 #include <memory>
 
 namespace windz {
 
 AtomicInt64 Timer::timer_num_;
 
-TimerManager::TimerManager(EventLoop *loop)
+TimerManager::TimerManager(ObserverPtr<EventLoop> loop)
         : loop_(loop)
 { }
 

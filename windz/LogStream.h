@@ -1,12 +1,10 @@
-//
-// Created by crystalwind on 19-2-10.
-//
-
 #ifndef WINDZ_LOGSTREAM_H
 #define WINDZ_LOGSTREAM_H
 
 #include "Noncopyable.h"
+
 #include <string.h>
+
 #include <string>
 
 namespace windz {
@@ -15,7 +13,7 @@ const int kSmallBuffer = 4000;
 const int kLargeBuffer = 4000*1000;
 
 template<int SIZE>
-class FixBuffer : private Noncopyable {
+class FixBuffer : Noncopyable {
   public:
     FixBuffer() : cur_(data_) { }
     ~FixBuffer() = default;
@@ -44,7 +42,7 @@ class FixBuffer : private Noncopyable {
     char *cur_;
 };
 
-class LogStream : private Noncopyable {
+class LogStream : Noncopyable {
   public:
     using Buffer = FixBuffer<kSmallBuffer>;
 

@@ -1,8 +1,5 @@
-//
-// Created by crystalwind on 19-1-20.
-//
-
 #include "Buffer.h"
+
 #include <sys/uio.h>
 
 namespace windz {

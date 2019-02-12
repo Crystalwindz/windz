@@ -1,7 +1,3 @@
-//
-// Created by crystalwind on 18-12-31.
-//
-
 #ifndef WINDZ_EVENTLOOPTHREAD_H
 #define WINDZ_EVENTLOOPTHREAD_H
 
@@ -10,12 +6,13 @@
 #include "Condition.h"
 #include "Thread.h"
 #include "EventLoop.h"
+
 #include <functional>
 #include <string>
 
 namespace windz{
 
-class EventLoopThread : private Noncopyable {
+class EventLoopThread : Noncopyable {
   public:
     explicit EventLoopThread(const std::string &name = std::string());
     ~EventLoopThread();

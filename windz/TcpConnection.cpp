@@ -1,12 +1,10 @@
-//
-// Created by crystalwind on 19-1-31.
-//
-
 #include "TcpConnection.h"
 #include "EventLoop.h"
 #include "Buffer.h"
 #include "Channel.h"
 #include "Socket.h"
+#include "Timer.h"
+
 #include <memory>
 #include <string>
 

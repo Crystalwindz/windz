@@ -1,7 +1,3 @@
-//
-// Created by crystalwind on 19-1-15.
-//
-
 #ifndef WINDZ_THREADPOOL_H
 #define WINDZ_THREADPOOL_H
 
@@ -9,13 +5,14 @@
 #include "Mutex.h"
 #include "Thread.h"
 #include "BlockingQueue.h"
+
 #include <functional>
 #include <memory>
 #include <vector>
 
 namespace windz {
 
-class ThreadPool : private Noncopyable {
+class ThreadPool : Noncopyable {
   public:
     using Task = std::function<void()>;
 

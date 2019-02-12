@@ -4,6 +4,7 @@
 
 #include "windz/BlockingQueue.h"
 #include "windz/Thread.h"
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -114,8 +115,7 @@ void TestLimitQueue() {
     sleep(60);
 }
 
-int main()
-{
+int main(int argc, char **argv) {
     //TestBlockQueue();
     TestLimitQueue();
 }

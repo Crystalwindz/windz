@@ -1,9 +1,6 @@
-//
-// Created by crystalwind on 18-12-31.
-//
-
 #include "EventLoop.h"
 #include "EventLoopThread.h"
+
 #include <assert.h>
 
 namespace windz {

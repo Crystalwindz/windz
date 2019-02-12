@@ -1,10 +1,7 @@
-//
-// Created by crystalwind on 19-2-10.
-//
-
 #include "AsyncLogging.h"
 #include "LogFile.h"
-#include "Util.h"
+#include "Memory.h"
+
 #include <assert.h>
 
 namespace windz {

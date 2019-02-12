@@ -5,13 +5,13 @@
 #include "windz/EventLoopThreadPool.h"
 #include "windz/EventLoop.h"
 #include "windz/Channel.h"
+
 #include <iostream>
 
 using namespace windz;
 using namespace std;
 
-int main()
-{
+int main(int argc, char **argv) {
     EventLoop loop;
     EventLoopThreadPool evpoll;
     loop.RunEvery(Duration(2.0), [&evpoll] {

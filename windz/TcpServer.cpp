@@ -1,7 +1,3 @@
-//
-// Created by crystalwind on 19-1-31.
-//
-
 #include "TcpServer.h"
 #include "Acceptor.h"
 #include "EventLoop.h"
@@ -9,17 +5,17 @@
 #include "EventLoopThreadPool.h"
 #include "Socket.h"
 #include "TcpConnection.h"
+
 #include <string>
 #include <memory>
 
-
 namespace windz{
 
-TcpServer::TcpServer(EventLoop *loop, const InetAddr &addr,
+TcpServer::TcpServer(ObserverPtr<EventLoop> loop, const InetAddr &addr,
                      const std::string &name, bool reuseport)
         : loop_(loop), name_(name),
           ip_port_(addr.IpPortString()),
-          acceptor_(new Acceptor(loop, addr, reuseport)),
+          acceptor_(MakeUnique<Acceptor>(loop, addr, reuseport)),
           next_connid_(1)
 {
     acceptor_->SetConnecionCallBack([this](const Socket &socket, const InetAddr &addr) {

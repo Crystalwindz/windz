@@ -1,11 +1,9 @@
-//
-// Created by crystalwind on 18-12-31.
-//
-
 #include "EventLoopThreadPool.h"
 #include "EventLoop.h"
 #include "EventLoopThread.h"
+
 #include <assert.h>
+
 #include <memory>
 #include <string>
 
