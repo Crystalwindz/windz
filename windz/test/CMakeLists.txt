@@ -1,3 +1,6 @@
+add_executable(asynclogging_test asynclogging_test.cpp)
+target_link_libraries(asynclogging_test windz)
+
 add_executable(atomic_test atomic_test.cpp)
 target_link_libraries(atomic_test windz)
 
