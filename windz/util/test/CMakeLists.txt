@@ -1,0 +1,5 @@
+add_executable(config_test config_test.cpp)
+target_link_libraries(config_test windz_util)
+
+add_executable(daemon_test daemon_test.cpp)
+target_link_libraries(daemon_test windz_util)

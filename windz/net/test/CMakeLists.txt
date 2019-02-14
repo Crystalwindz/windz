@@ -1,0 +1,26 @@
+add_executable(buffer_test buffer_test.cpp)
+target_link_libraries(buffer_test windz_net)
+
+add_executable(channel_test channel_test.cpp)
+target_link_libraries(channel_test windz_net)
+
+add_executable(eventloop_test eventloop_test.cpp)
+target_link_libraries(eventloop_test windz_net)
+
+add_executable(eventloopthreadpool_test eventloopthreadpool_test.cpp)
+target_link_libraries(eventloopthreadpool_test windz_net)
+
+add_executable(tcpserver_test tcpserver_test.cpp)
+target_link_libraries(tcpserver_test windz_net)
+
+add_executable(tcpclient_test1 tcpclient_test1.cpp)
+target_link_libraries(tcpclient_test1 windz_net)
+
+add_executable(tcpclient_test2 tcpclient_test2.cpp)
+target_link_libraries(tcpclient_test2 windz_net)
+
+add_executable(tcpclient_test3 tcpclient_test3.cpp)
+target_link_libraries(tcpclient_test3 windz_net)
+
+add_executable(timer_test timer_test.cpp)
+target_link_libraries(timer_test windz_net)

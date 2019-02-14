@@ -1,0 +1,14 @@
+add_executable(atomic_test atomic_test.cpp)
+target_link_libraries(atomic_test windz_base)
+
+add_executable(blockingqueue_test blockingqueue_test.cpp)
+target_link_libraries(blockingqueue_test windz_base)
+
+add_executable(countdownlatch_test countdownlatch_test.cpp)
+target_link_libraries(countdownlatch_test windz_base)
+
+add_executable(thread_test thread_test.cpp)
+target_link_libraries(thread_test windz_base)
+
+add_executable(threadpool_test threadpool_test.cpp)
+target_link_libraries(threadpool_test windz_base)
