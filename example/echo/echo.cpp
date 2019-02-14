@@ -1,10 +1,7 @@
-//
-// Created by crystalwind on 19-2-3.
-//
+#include "windz/base/CurrentThread.h"
+#include "windz/net/EventLoop.h"
+#include "windz/net/TcpServer.h"
 
-#include "windz/EventLoop.h"
-#include "windz/TcpServer.h"
-#include "windz/CurrentThread.h"
 #include <string>
 #include <iostream>
 
