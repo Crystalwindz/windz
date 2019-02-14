@@ -31,9 +31,8 @@
 *.out
 *.app
 
-# Clion files
-cmake-build-debug
-.idea
-
 # Other files
 refer
+cmake-build-debug
+.idea
+.vscode
