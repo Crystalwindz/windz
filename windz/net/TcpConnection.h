@@ -27,7 +27,7 @@ class TcpConnection : Noncopyable, public std::enable_shared_from_this<TcpConnec
 
     void Send(const void *message, int len);
     void Send(const std::string &message);
-    void Send(const Buffer &message);
+    void Send(Buffer &message);
     void Shutdown();
     void ForceClose();
     void ForceCloseAfter(const Duration &delay);

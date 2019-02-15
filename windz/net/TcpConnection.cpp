@@ -70,7 +70,10 @@ void TcpConnection::Send(const std::string &message) {
     }
 }
 
-void TcpConnection::Send(const Buffer &message) { Send(message.Peek(), message.ReadableBytes()); }
+void TcpConnection::Send(Buffer &message) {
+    Send(message.Peek(), message.ReadableBytes());
+    message.ReleaseAll();
+}
 
 void TcpConnection::SendInLoop(const void *message, size_t len) {
     loop_->AssertInLoopThread();
