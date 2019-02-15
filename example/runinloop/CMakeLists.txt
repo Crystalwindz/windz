@@ -1,0 +1,2 @@
+add_executable(runinloop runinloop.cpp)
+target_link_libraries(runinloop windz_base windz_net)
