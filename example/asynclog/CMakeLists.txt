@@ -1,0 +1,2 @@
+add_executable(asynclog asynclog.cpp)
+target_link_libraries(asynclog windz_base windz_log)
