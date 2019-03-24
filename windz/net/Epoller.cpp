@@ -1,6 +1,7 @@
 #include "windz/net/Epoller.h"
 #include "windz/net/Channel.h"
 #include "windz/net/EventLoop.h"
+#include "windz/log/Logger.h"
 
 #include <assert.h>
 #include <string.h>
@@ -22,7 +23,10 @@ void Epoller::AddChannel(ChannelOPtr ch) {
     memset(&ev, 0, sizeof(ev));
     ev.events = ch->events();
     ev.data.ptr = ch.Get();
-    epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, ch->fd(), &ev);
+    int r = epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, ch->fd(), &ev);
+    if (r) {
+        LOG_SYSERR << "AddChannel(" << ch->fd() << ") error.";
+    }
 }
 
 void Epoller::UpdateChannel(ChannelOPtr ch) {
@@ -31,12 +35,18 @@ void Epoller::UpdateChannel(ChannelOPtr ch) {
     memset(&ev, 0, sizeof(ev));
     ev.events = ch->events();
     ev.data.ptr = ch.Get();
-    epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, ch->fd(), &ev);
+    int r = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, ch->fd(), &ev);
+    if (r) {
+        LOG_SYSERR << "UpdateChannel(" << ch->fd() << ") error.";
+    }
 }
 
 void Epoller::RemoveChannel(ChannelOPtr ch) {
     assert(IsInLoopThread());
-    epoll_ctl(epoll_fd_, EPOLL_CTL_DEL, ch->fd(), nullptr);
+    int r = epoll_ctl(epoll_fd_, EPOLL_CTL_DEL, ch->fd(), nullptr);
+    if (r) {
+        LOG_SYSERR << "RemoveChannel(" << ch->fd() << ") error.";
+    }
 }
 
 bool Epoller::IsInLoopThread() const { return loop_->IsInLoopThread(); }
