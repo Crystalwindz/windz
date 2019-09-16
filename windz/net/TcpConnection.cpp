@@ -185,6 +185,9 @@ void TcpConnection::HandleWrite() {
                 if (state_ == kDisconnecting) {
                     ShutdownInLoop();
                 }
+                if (state_ == kDisconnected) {
+                    HandleClose();
+                }
             }
         } else {
             LOG_SYSERR << "TcpConnection::HandleWrite() - write error";
@@ -194,9 +197,13 @@ void TcpConnection::HandleWrite() {
 
 void TcpConnection::HandleClose() {
     loop_->AssertInLoopThread();
-    assert(state_ == kConnected || state_ == kDisconnecting);
+    assert(state_ == kConnected || state_ == kDisconnecting || state_ == kDisconnected);
     state_ = kDisconnected;
-    channel_->DisableReadWrite();
+    channel_->DisableRead();
+    if (channel_->WriteEnabled()) {
+        return;
+    }
+    channel_->DisableWrite();
     close_cb_(shared_from_this());
 }
 
